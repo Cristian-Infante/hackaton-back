@@ -14,12 +14,15 @@ const server = () => {
 
     app.use(cors({
         origin: (origin, callback) => {
+            console.log('Origin recibido:', origin);
             if (!origin || allowedOrigins.includes(origin)) {
                 return callback(null, true);
             }
             return callback(new Error('No permitido por CORS'));
         },
-        credentials: true, // Permitir cookies en solicitudes CORS
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Métodos permitidos
+        allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
     }));
 
     // Middleware para parsear JSON y cookies
