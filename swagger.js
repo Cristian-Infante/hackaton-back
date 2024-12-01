@@ -1,5 +1,6 @@
 ﻿const swaggerAutogen = require('swagger-autogen')();
 const url = process.env.DEPLOY_URL || 'localhost:3000';
+const scheme = process.env.DEPLOY_URL ? 'https' : 'http';
 
 const doc = {
     info: {
@@ -7,7 +8,7 @@ const doc = {
         description: 'API autodocumentada con swagger-autogen',
     },
     host: url,
-    schemes: ['http'],
+    schemes: [scheme],
     securityDefinitions: {
         BearerAuth: {
             type: 'apiKey',
