@@ -1,11 +1,12 @@
 ﻿const swaggerAutogen = require('swagger-autogen')();
+const url = process.env.DEPLOY_URL || 'localhost:3000';
 
 const doc = {
     info: {
         title: 'Hackathon API',
         description: 'API autodocumentada con swagger-autogen',
     },
-    host: 'localhost:3000',
+    host: url,
     schemes: ['http'],
     securityDefinitions: {
         BearerAuth: {
@@ -22,8 +23,8 @@ const doc = {
     ],
 };
 
-const outputFile = './swagger-output.json'; // Archivo de salida
-const endpointsFiles = ['./src/routes/appRoutes.js']; // Archivo con todas las rutas centralizadas
+const outputFile = './swagger-output.json';
+const endpointsFiles = ['./src/routes/appRoutes.js'];
 
 swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
     console.log('Documentación Swagger generada exitosamente.');

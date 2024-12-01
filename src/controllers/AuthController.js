@@ -23,10 +23,10 @@ class AuthController {
 
             // Configurar cookie segura con el token y datos del usuario
             res.cookie('session', { token, name: userInfo.name, email: userInfo.email }, {
-                httpOnly: true, // La cookie no será accesible por JavaScript en el cliente
-                secure: process.env.NODE_ENV === 'production', // Solo en HTTPS en producción
-                sameSite: 'strict', // Solo se envía en solicitudes del mismo dominio
-                maxAge: 60 * 60 * 1000, // 1 hora
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 60 * 60 * 1000,
             });
 
             // Enviar el token en el cuerpo solo para pruebas (no en producción)

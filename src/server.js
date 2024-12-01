@@ -29,9 +29,10 @@ const server = () => {
 
     // Arrancar el servidor
     const PORT = process.env.PORT || 3000;
+    const url = process.env.DEPLOY_URL || 'localhost';
     app.listen(PORT, () => {
-        console.log(`Servidor corriendo en http://localhost:${PORT}`);
-        console.log(`Documentación disponible en http://localhost:${PORT}/api-docs`);
+        console.log(`Servidor corriendo en http://${url}:${PORT}`);
+        console.log(`Documentación disponible en http://${url}:${PORT}/api-docs`);
     });
 };
 
