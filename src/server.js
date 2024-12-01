@@ -4,6 +4,7 @@ const swaggerDocument = require('../swagger-output.json');
 const appRoutes = require('./routes/appRoutes');
 const connectDB = require('./config/database');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const server = () => {
     const app = express();
