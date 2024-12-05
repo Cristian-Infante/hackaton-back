@@ -116,7 +116,7 @@
     "/peasants": {
       "get": {
         "tags": [
-          "Authentication"
+          "Peasants"
         ],
         "description": "",
         "responses": {
@@ -135,7 +135,7 @@
     "/peasant/{id}": {
       "get": {
         "tags": [
-          "Authentication"
+          "Peasants"
         ],
         "description": "",
         "parameters": [
@@ -202,7 +202,7 @@
     "/save/peasant": {
       "post": {
         "tags": [
-          "Authentication"
+          "Peasants"
         ],
         "description": "",
         "parameters": [
@@ -386,6 +386,9 @@
     },
     "/suppliers": {
       "get": {
+        "tags": [
+          "Suppliers"
+        ],
         "description": "",
         "responses": {
           "200": {
@@ -402,6 +405,9 @@
     },
     "/supplier/{id}": {
       "get": {
+        "tags": [
+          "Suppliers"
+        ],
         "description": "",
         "parameters": [
           {
@@ -430,6 +436,9 @@
         }
       },
       "delete": {
+        "tags": [
+          "Suppliers"
+        ],
         "description": "",
         "parameters": [
           {
@@ -463,6 +472,9 @@
     },
     "/supplier": {
       "post": {
+        "tags": [
+          "Suppliers"
+        ],
         "description": "",
         "parameters": [
           {
