@@ -6,19 +6,19 @@ const peasantController = require('../controllers/PeasantController');
 
 // obtener todos los campesinos
 router.get('/peasants', authMiddleware,  (req, res) => {
-    // #swagger.tags = ['Authentication']
+    // #swagger.tags = ['Peasants']
     peasantController.getPeasants(req, res);
 });
 
 // obtener campesino por id
 router.get('/peasant/:id',authMiddleware,  (req, res) => {
-    // #swagger.tags = ['Authentication']
+    // #swagger.tags = ['Peasants']
     peasantController.getPeasant(req, res);
 });
 
 // Ruta de registro campesino
 router.post('/save/peasant', authMiddleware, roleMiddleware(['administrador', 'agricultor']), (req, res) => {
-    // #swagger.tags = ['Authentication']
+    // #swagger.tags = ['Peasants']
     peasantController.savePeasant(req, res);
 });
 
