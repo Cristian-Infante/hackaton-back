@@ -2,6 +2,7 @@
 const authRoutes = require('./authRoutes'); // Rutas de autenticación
 const peasantRoutes = require('./peasantRoutes');
 const companyRoutes = require('./companyRoutes');
+const supplierRoutes = require('./supplierRoutes');
 
 const router = express.Router();
 
@@ -9,5 +10,6 @@ const router = express.Router();
 router.use('/auth', authRoutes);
 router.use(peasantRoutes);
 router.use(companyRoutes);
+router.use(supplierRoutes);
 
 module.exports = router;
