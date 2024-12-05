@@ -4,7 +4,12 @@ const userRepository = require('../repositories/UserRepository');
 
 class AuthService {
     async register(userData) {
-        const { name, email, password } = userData;
+        const { name, email, password, role } = userData;
+
+        // Validar rol
+        if (!['agricultor', 'proveedor', 'empresa turística', 'administrador'].includes(role)) {
+            throw new Error('El rol proporcionado no es válido');
+        }
 
         const existingUser = await userRepository.findByEmail(email);
         if (existingUser) {
@@ -17,7 +22,7 @@ class AuthService {
             password: hashedPassword,
         });
 
-        return { id: user.id, name: user.name, email: user.email };
+        return { id: user.id, name: user.name, email: user.email, role: user.role };
     }
 
     async login(email, password) {
@@ -26,10 +31,10 @@ class AuthService {
             throw new Error('Credenciales inválidas');
         }
 
-        const token = jwt.generateToken({ id: user.id });
+        const token = jwt.generateToken({ id: user.id, role: user.role });
         return {
             token,
-            userInfo: { name: user.name, email: user.email },
+            userInfo: { name: user.name, email: user.email, role: user.role },
         };
     }
 }

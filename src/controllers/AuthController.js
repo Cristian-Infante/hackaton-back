@@ -3,11 +3,13 @@
 class AuthController {
     async register(req, res) {
         try {
-            const { name, email, password, confirmPassword } = req.body;
+            const { name, email, password, confirmPassword, role } = req.body;
+
             if (password !== confirmPassword) {
                 return res.status(400).json({ message: 'Las contraseñas no coinciden.' });
             }
-            const user = await authService.register({ name, email, password });
+
+            const user = await authService.register({ name, email, password, role });
             res.status(201).json(user);
         } catch (error) {
             res.status(400).json({ message: error.message });
@@ -22,7 +24,7 @@ class AuthController {
             const { token, userInfo } = await authService.login(email, password);
 
             // Configurar cookie segura con el token y datos del usuario
-            res.cookie('session', { token, name: userInfo.name, email: userInfo.email }, {
+            res.cookie('session', { token, name: userInfo.name, email: userInfo.email, role: userInfo.role }, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
                 sameSite: 'strict',

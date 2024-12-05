@@ -9,7 +9,7 @@ const authMiddleware = async (req, res, next) => {
 
         // Verificar el token JWT
         const decoded = jwt.verify(session.token, process.env.JWT_KEY);
-        req.user = { id: decoded.id, name: session.name, email: session.email };
+        req.user = { id: decoded.id, role: decoded.role };
         next();
     } catch (error) {
         res.status(401).json({ message: 'Token inválido o expirado.' });

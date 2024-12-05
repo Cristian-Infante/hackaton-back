@@ -43,6 +43,9 @@
                 },
                 "confirmPassword": {
                   "example": "any"
+                },
+                "role": {
+                  "example": "any"
                 }
               }
             }
