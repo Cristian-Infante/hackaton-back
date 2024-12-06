@@ -23,7 +23,6 @@ class AuthController {
             // Autenticar usuario y generar token
             const { token, userInfo } = await authService.login(email, password);
 
-            // Configurar cookie segura con solo el token
             res.cookie('session', JSON.stringify({ token, name: userInfo.name, email: userInfo.email, role: userInfo.role }), {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
