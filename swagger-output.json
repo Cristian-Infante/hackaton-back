@@ -635,9 +635,6 @@
           "401": {
             "description": "Unauthorized"
           },
-          "404": {
-            "description": "Not Found"
-          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -694,7 +691,7 @@
                 "userId": {
                   "example": "any"
                 },
-                "quantity": {
+                "amount": {
                   "example": "any"
                 },
                 "price": {
@@ -708,14 +705,8 @@
           "201": {
             "description": "Created"
           },
-          "400": {
-            "description": "Bad Request"
-          },
           "401": {
             "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -743,9 +734,6 @@
           },
           "401": {
             "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
@@ -783,141 +771,40 @@
           "403": {
             "description": "Forbidden"
           },
-          "404": {
-            "description": "Not Found"
-          },
           "500": {
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/bid": {
-      "post": {
+      },
+      "put": {
         "tags": [
-          "Bids"
+          "Offer"
         ],
         "description": "",
         "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "offerId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "body",
             "in": "body",
             "schema": {
               "type": "object",
               "properties": {
-                "offerId": {
-                  "example": "any"
-                },
-                "senderId": {
-                  "example": "any"
-                },
-                "receiverId": {
-                  "example": "any"
-                },
-                "quantity": {
-                  "example": "any"
-                },
-                "price": {
-                  "example": "any"
-                },
-                "message": {
+                "status": {
                   "example": "any"
                 }
               }
             }
-          }
-        ],
-        "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/bid/accept/{bidId}": {
-      "patch": {
-        "tags": [
-          "Bids"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "bidId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/bid/decline/{bidId}": {
-      "patch": {
-        "tags": [
-          "Bids"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "bidId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "401": {
-            "description": "Unauthorized"
-          },
-          "404": {
-            "description": "Not Found"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/bids/{offerId}": {
-      "get": {
-        "tags": [
-          "Bids"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "offerId",
-            "in": "path",
-            "required": true,
-            "type": "string"
           }
         ],
         "responses": {
