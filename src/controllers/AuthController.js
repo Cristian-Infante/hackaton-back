@@ -24,7 +24,7 @@ class AuthController {
             const { token, userInfo } = await authService.login(email, password);
 
             res.cookie('session', JSON.stringify({ token, name: userInfo.name, email: userInfo.email, role: userInfo.role }), {
-                httpOnly: false,
+                httpOnly: true,
                 secure: false,
                 sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
                 maxAge: 60 * 60 * 1000,
