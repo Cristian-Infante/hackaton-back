@@ -41,6 +41,7 @@ class AuthController {
     async logout(req, res) {
         try {
             // Eliminar cookie de sesión
+            res.clearCookie('session');
             res.clearCookie('token');
             res.status(200).json({ message: 'Logout exitoso.' });
         } catch (error) {
