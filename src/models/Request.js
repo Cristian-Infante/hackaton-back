@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const offerSchema = require('./Offer'); // Importar el esquema de ofertas
 
 const requestSchema = new mongoose.Schema({
     requestType: {
