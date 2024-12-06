@@ -6,10 +6,11 @@ const supplierRoutes = require('./supplierRoutes');
 const requestRoutes = require('./requestRoutes');
 const offerRoutes = require('./offerRoutes');
 const bidRoutes = require('./bidRoutes');
-
+const adminRoutes = require('./adminRoutes')
+const chatRoutes = require('./chatRoutes')
 const router = express.Router();
 
-// Asigna el prefijo '/auth' a las rutas de autenticación
+router.use(adminRoutes)
 router.use('/auth', authRoutes);
 router.use(peasantRoutes);
 router.use(companyRoutes);
@@ -17,5 +18,7 @@ router.use(supplierRoutes);
 router.use(requestRoutes);
 router.use(offerRoutes);
 router.use(bidRoutes);
+router.use(chatRoutes)
+
 
 module.exports = router;
