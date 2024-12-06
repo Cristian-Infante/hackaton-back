@@ -1,10 +1,12 @@
-const Supplier = require('../models/Supplier');
+const supplierService = require('../services/SupplierService');
 
 class SupplierController {
     // Listar todos los proveedores
     async getSuppliers(req, res) {
         try {
-            const suppliers = await Supplier.find().populate('user', 'name email');
+
+            const suppliers = await supplierService.getAllSuppliers();
+
             res.status(200).json({
                 message: "Lista de proveedores obtenida exitosamente",
                 data: suppliers
@@ -18,12 +20,9 @@ class SupplierController {
     // Obtener un proveedor por ID
     async getSupplier(req, res) {
         try {
-            const { id } = req.params;
-            const supplier = await Supplier.findById(id).populate('user', 'name email');
 
-            if (!supplier) {
-                return res.status(404).json({ message: "Proveedor no encontrado" });
-            }
+            const { id } = req.params;
+            const supplier = await supplierService.getSupplierById(id);
 
             res.status(200).json({
                 message: "Proveedor obtenido exitosamente",
@@ -43,24 +42,10 @@ class SupplierController {
     // Crear un nuevo proveedor
     async saveSupplier(req, res) {
         try {
-            const { supplierName, nit, contactPhone, address, productsOffered, coverageAreas, transportAvailability, userId } = req.body;
 
-            if (!supplierName || !nit || !contactPhone || !address || !userId) {
-                return res.status(400).json({ message: "Campos obligatorios faltantes" });
-            }
+            const supplierData = req.body;
+            const newSupplier = await supplierService.createSupplier(supplierData);
 
-            const newSupplier = new Supplier({
-                supplierName,
-                nit,
-                contactPhone,
-                address,
-                productsOffered,
-                coverageAreas,
-                transportAvailability,
-                user: userId
-            });
-
-            await newSupplier.save();
             res.status(201).json({ message: "Proveedor registrado exitosamente", data: newSupplier });
         } catch (error) {
             console.error("Error al guardar el proveedor: ", error);
@@ -76,12 +61,9 @@ class SupplierController {
     // Eliminar un proveedor
     async deleteSupplier(req, res) {
         try {
-            const { id } = req.params;
-            const deletedSupplier = await Supplier.findByIdAndDelete(id);
 
-            if (!deletedSupplier) {
-                return res.status(404).json({ message: "Proveedor no encontrado" });
-            }
+            const { id } = req.params;
+            const deletedSupplier = await supplierService.deleteSupplierById(id);
 
             res.status(200).json({
                 message: "Proveedor eliminado exitosamente",
@@ -95,6 +77,36 @@ class SupplierController {
             }
 
             res.status(500).json({ message: "Error del servidor al eliminar el proveedor" });
+        }
+    }
+
+    async addProduct(req, res) {
+        try {
+            const { supplierId } = req.params;
+            const product = req.body;
+            const updatedSupplier = await supplierService.addProductToSupplier(supplierId, product);
+            res.status(200).json({
+                message: "Producto agregado exitosamente",
+                data: updatedSupplier
+            });
+        } catch (error) {
+            console.error("Error al agregar el producto: ", error);
+            res.status(400).json({ message: error.message });
+        }
+    }
+
+    // Eliminar un producto ofrecido de un proveedor
+    async removeProduct(req, res) {
+        try {
+            const { supplierId, productId } = req.params;
+            const updatedSupplier = await supplierService.removeProductFromSupplier(supplierId, productId);
+            res.status(200).json({
+                message: "Producto eliminado exitosamente",
+                data: updatedSupplier
+            });
+        } catch (error) {
+            console.error("Error al eliminar el producto: ", error);
+            res.status(400).json({ message: error.message });
         }
     }
 }
