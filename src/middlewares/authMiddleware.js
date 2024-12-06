@@ -5,10 +5,6 @@ const authMiddleware = async (req, res, next) => {
         console.log(`Cookies: ${req.cookies.session}`);
 
         const sessionCookie = req.cookies.session;
-        if (!sessionCookie) {
-            return res.status(401).json({ message: 'No estás autenticado.' });
-        }
-
         const sessionData = JSON.parse(sessionCookie);
         const token = sessionData.token;
 
