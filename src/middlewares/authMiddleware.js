@@ -2,7 +2,7 @@
 
 const authMiddleware = async (req, res, next) => {
     try {
-        console.log(`Cookies: ${req.cookies}`);
+        console.log(`Cookies: ${req.cookies.session}`);
 
         const sessionCookie = req.cookies.session;
         if (!sessionCookie) {
