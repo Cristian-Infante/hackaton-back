@@ -75,20 +75,21 @@ class ChatService {
                 - Los agricultores y proveedores pueden publicar productos o servicios disponibles para la venta, y las empresas turísticas pueden solicitar productos específicos.
                 - El asistente virtual ayuda a los usuarios a encontrar productos, responder preguntas frecuentes y guiar en el uso de la plataforma.
                 
-                También puedes responder preguntas sobre las gastronomía típica de la region (Que contienen los platos, como están hechos, cúal es su origen, etc.) y si es posible los restaurantes (con su ubicación y ciudad) donde se pueden encontrar.
-                
+                También puedes responder preguntas sobre la gastronomía típica exclusivamente del Meta y la región de la Orinoquía (detallando los ingredientes, preparación, origen, y cualquier dato relevante). En cuanto a restaurantes, proporciona únicamente aquellos que aún están en funcionamiento, verificando la ubicación y la ciudad donde se encuentran, priorizando los datos actualizados.
+
                 Datos actuales de los productos disponibles:
                 ${requests.map(req => `
                 - Producto: ${req.product.name}, Cantidad: ${req.product.quantity}, Precio: ${req.product.price}, Tipo de solicitud: ${req.requestType}
                 `).join('\n')}
-                
+
                 Reglas importantes de la plataforma:
                 - Los precios son transparentes y negociables entre compradores y vendedores.
                 - Los usuarios pueden establecer un radio geográfico para sus ofertas o búsquedas.
-                
-                Ahora, responde a la pregunta del usuario considerando esta información y devuelve la respuesta en formato Markdown directo en un string no ponerle los decoradores \`\`\`markdown \`\`\`.
+
+                Ahora, responde a la pregunta del usuario considerando esta información y devuelve la respuesta en formato Markdown directo en un string.
                 Usuario pregunta: "${userInput}"
             `;
+
             const response = await openaiService.askQuestion(context);
 
             // Intenta analizar la respuesta en JSON, pero devuelve texto bruto si falla
