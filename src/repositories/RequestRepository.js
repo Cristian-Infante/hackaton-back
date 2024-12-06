@@ -1,30 +1,48 @@
 const Request = require('../models/Request');
 
 class RequestRepository {
-    // Guardar un nuevo Request
+
     async create(requestData) {
-        const request = new Request(requestData);
+        return await Request.create(requestData);
+    }
+
+    async findByIdWithOffers(requestId) {
+        return await Request.findById(requestId).populate('offers.user', 'name email');
+    }
+
+
+    async findAll() {
+        return await Request.find().populate('user', 'name email');
+    }
+
+    async findById(id) {
+        return await Request.findById(id)
+            .populate('user', 'name email')
+            .populate('offers.user', 'name email');
+    }
+
+    async deleteById(id) {
+        return await Request.findByIdAndDelete(id);
+    }
+
+    async save(request) {
         return await request.save();
     }
 
-    // Encontrar un Request por ID
-    async findById(requestId) {
-        return await Request.findById(requestId);
-    }
+    async updateOfferStatus(requestId, offerId, status) {
+        const request = await Request.findById(requestId);
 
-    // Listar todos los Requests
-    async findAll() {
-        return await Request.find();
-    }
+        if (!request) {
+            throw new Error('Solicitud no encontrada');
+        }
 
-    // Actualizar un Request por ID
-    async updateById(requestId, updateData) {
-        return await Request.findByIdAndUpdate(requestId, updateData, { new: true });
-    }
+        const offer = request.offers.id(offerId);
+        if (!offer) {
+            throw new Error('Oferta no encontrada');
+        }
 
-    // Eliminar un Request por ID
-    async deleteById(requestId) {
-        return await Request.findByIdAndDelete(requestId);
+        offer.status = status; // Actualizar el estado de la oferta
+        return await request.save(); // Guardar los cambios
     }
 }
 

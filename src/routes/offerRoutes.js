@@ -21,4 +21,10 @@ router.delete('/offer/:requestId/:offerId', authMiddleware,  roleMiddleware(['ad
     offerController.deleteOffer(req, res);
 });
 
+// Actualizar el estado de una oferta (aceptar/rechazar)
+router.put('/offer/:requestId/:offerId', authMiddleware, (req, res) => {
+    // #swagger.tags = ['Offer']
+    offerController.updateOfferStatus(req, res);
+});
+
 module.exports = router;
