@@ -34,7 +34,7 @@ class AuthService {
         const token = jwt.generateToken({ id: user.id, role: user.role });
         return {
             token,
-            userInfo: { name: user.name, email: user.email, role: user.role },
+            userInfo: { id: user.id, name: user.name, email: user.email, role: user.role },
         };
     }
 }
