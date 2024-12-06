@@ -53,7 +53,11 @@ class ChatService {
         }
     }
 
-    async generateResponse(userInput) {
+    async generateResponse(userInput, context = []) {
+        let history = '';
+        if (context.length > 0) {
+            history = context.map(msg => `${msg.role === 'user' ? 'Usuario' : 'Bot'}: ${msg.content}`).join('\n');
+        }
         const matchedQuestion = this.findSimilarQuestion(userInput);
 
         if (matchedQuestion) {
@@ -83,10 +87,12 @@ class ChatService {
                 - Producto: ${req.product.name}, Cantidad: ${req.product.quantity}, Precio: ${req.product.price}, Tipo de solicitud: ${req.requestType}
                 `).join('\n')}
 
+                ${history && `Historial de la conversación hasta ahora:\n${history}`}
+        
                 Reglas importantes de la plataforma:
                 - Los precios son transparentes y negociables entre compradores y vendedores.
                 - Los usuarios pueden establecer un radio geográfico para sus ofertas o búsquedas.
-
+        
                 Ahora, responde a la pregunta del usuario considerando esta información y devuelve la respuesta en formato Markdown directo en un string no ponerle los decoradores \`\`\`markdown \`\`\` ni string = "[contenido de la respuesta]", la idea es que sea: [contenido de la respuesta].
                 Usuario pregunta: "${userInput}"
             `;
