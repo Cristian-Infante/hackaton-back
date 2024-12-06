@@ -17,16 +17,16 @@ class AuthController {
     }
 
     async login(req, res) {
-        try {
+        try {   
             const { email, password } = req.body;
-
             // Autenticar usuario y generar token
             const { token, userInfo } = await authService.login(email, password);
-
+            console.log("token:", token)
             res.cookie('session', JSON.stringify({ token, name: userInfo.name, email: userInfo.email, role: userInfo.role }), {
-                httpOnly: false, // Permitir acceso del token desde el frontend mediante document.cookie o Cookies.get()
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+
+                httpOnly: false,
+                secure: false,
+                sameSite: 'lax',
                 maxAge: 60 * 60 * 1000,
             });
 
@@ -50,6 +50,8 @@ class AuthController {
             res.status(500).json({ message: 'Error al cerrar sesión.' });
         }
     }
+
+    
 }
 
 module.exports = new AuthController();
