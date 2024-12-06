@@ -10,7 +10,7 @@ const server = () => {
     const app = express();
     const PORT = process.env.PORT || 3000;
     const URL = process.env.DEPLOY_URL || 'localhost';
-    const allowedOrigins = [`http://${URL}`, `https://${URL}`, `http://localhost:3000`, `https://front-hackaton-l1nl.vercel.app/`];
+    const allowedOrigins = [`http://${URL}`, `https://${URL}`, `http://localhost:3000`, `*`];
 
     app.use(cors({
         origin: (origin, callback) => {
