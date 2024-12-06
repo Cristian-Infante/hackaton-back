@@ -24,7 +24,7 @@ class AuthController {
             console.log("token:", token)
             res.cookie('session', JSON.stringify({ token, name: userInfo.name, email: userInfo.email, role: userInfo.role }), {
 
-                httpOnly: false,
+                httpOnly: true,
                 secure: false,
                 sameSite: 'lax',
                 maxAge: 60 * 60 * 1000,
