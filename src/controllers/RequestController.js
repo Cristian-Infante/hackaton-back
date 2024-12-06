@@ -6,8 +6,8 @@ class RequestController {
     async createRequest(req, res) {
 
         try {
-            const requestData = req.body; 
 
+            const requestData = req.body;
             const newRequest = await requestService.createRequest(requestData);
 
             res.status(201).json({ message: "Solicitud creada exitosamente", data: newRequest });
@@ -26,7 +26,8 @@ class RequestController {
     async getRequests(req, res) {
         try {
 
-            const requests = await Request.find().populate('user', 'name email');
+            const requests = await requestService.getAllRequests();
+
             res.status(200).json({
                 message: "Lista de solicitudes obtenida exitosamente",
                 data: requests
@@ -40,16 +41,10 @@ class RequestController {
     // Obtener una solicitud por ID
     async getRequest(req, res) {
         try {
+            
             const { id } = req.params;
-
-            const request = await Request.findById(id)
-                .populate('user', 'name email')
-                .populate('offers.user', 'name email'); // Poblamos también las ofertas
-
-            if (!request) {
-                return res.status(404).json({ message: "Solicitud no encontrada" });
-            }
-
+            const request = await requestService.getRequestById(id);
+               
             res.status(200).json({
                 message: "Solicitud obtenida exitosamente",
                 data: request
@@ -69,7 +64,7 @@ class RequestController {
     async deleteRequest(req, res) {
         try {
             const { id } = req.params;
-            const deletedRequest = await Request.findByIdAndDelete(id);
+            const deletedRequest = await requestService.deleteRequestById(id);
 
             if (!deletedRequest) {
                 return res.status(404).json({ message: "Solicitud no encontrada" });
