@@ -8,8 +8,6 @@ const authMiddleware = async (req, res, next) => {
         const sessionData = JSON.parse(sessionCookie);
         const token = sessionData.token;
 
-        console.log(token);
-
         const decoded = jwt.verify(token, process.env.JWT_KEY);
         req.user = { id: decoded.id, role: decoded.role };
         next();
