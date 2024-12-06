@@ -95,7 +95,7 @@ class ChatService {
             try {
                 return {
                     format: 'markdown',
-                    content: JSON.parse(response), // Devolver el texto original como markdown si el análisis falla
+                    content: JSON.parse(response),
                 };
             } catch (error) {
                 console.error('Error al parsear la respuesta de OpenAI como JSON:', error.message);
