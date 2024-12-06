@@ -79,7 +79,7 @@ class ChatService {
 
                 Datos actuales de los productos disponibles:
                 ${requests.map(req => `
-                - Producto: ${req.product.name}, Cantidad (Arrobas): ${req.product.quantity}, Precio: ${req.product.price}, Tipo de solicitud: ${req.requestType}
+                - Producto: ${req.product.name}, Cantidad (Arrobas para los cultivos y unidades para lo demás): ${req.product.quantity}, Precio: ${req.product.price}, Tipo de solicitud: ${req.requestType}
                 `).join('\n')}
 
                 Reglas importantes de la plataforma:
