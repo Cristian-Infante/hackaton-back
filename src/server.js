@@ -13,12 +13,7 @@ const server = () => {
     const allowedOrigins = [`http://${URL}`, `https://${URL}`, `http://localhost:3000`, `https://front-hackaton-l1nl.vercel.app`];
 
     app.use(cors({
-        origin: (origin, callback) => {
-            if (!origin || allowedOrigins.includes(origin)) {
-                return callback(null, true);
-            }
-            return callback(new Error('No permitido por CORS'));
-        },
+        origin: allowedOrigins,
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Métodos permitidos
         allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
