@@ -9,6 +9,10 @@ class UserRepository {
         const user = new User(userData);
         return await user.save();
     }
+
+    async getAll() {
+        return await User.find();
+    }
 }
 
 module.exports = new UserRepository();
