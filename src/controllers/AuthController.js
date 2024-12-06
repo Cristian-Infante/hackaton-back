@@ -23,6 +23,7 @@ class AuthController {
             const { token, userInfo } = await authService.login(email, password);
             console.log("token:", token)
             res.cookie('session', JSON.stringify({ token, name: userInfo.name, email: userInfo.email, role: userInfo.role }), {
+
                 httpOnly: false,
                 secure: false,
                 sameSite: 'lax',

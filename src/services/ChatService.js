@@ -53,7 +53,11 @@ class ChatService {
         }
     }
 
-    async generateResponse(userInput) {
+    async generateResponse(userInput, context = []) {
+        let history = '';
+        if (context.length > 0) {
+            history = context.map(msg => `${msg.role === 'user' ? 'Usuario' : 'Bot'}: ${msg.content}`).join('\n');
+        }
         const matchedQuestion = this.findSimilarQuestion(userInput);
 
         if (matchedQuestion) {
@@ -74,19 +78,22 @@ class ChatService {
                 - Los usuarios pueden registrarse en uno de estos roles: agricultor, proveedor de insumos o empresa turística.
                 - Los agricultores y proveedores pueden publicar productos o servicios disponibles para la venta, y las empresas turísticas pueden solicitar productos específicos.
                 - El asistente virtual ayuda a los usuarios a encontrar productos, responder preguntas frecuentes y guiar en el uso de la plataforma.
+                - La unidades son arrobas para los productos agrícolas y agropecuarios.
                 
-                También puedes responder preguntas sobre la gastronomía típica exclusivamente del Meta y la región de la Orinoquía (detallando los ingredientes, preparación, origen, y cualquier dato relevante). En cuanto a restaurantes, proporciona únicamente aquellos que aún están en funcionamiento, verificando la ubicación y la ciudad donde se encuentran, priorizando los datos actualizados.
+                También puedes responder preguntas sobre la gastronomía típica exclusivamente del Meta y la región de la Orinoquia (detallando los ingredientes, preparación, origen, y cualquier dato relevante). En cuanto a restaurantes, proporciona únicamente aquellos que aún están en funcionamiento, verificando la ubicación y la ciudad donde se encuentran, priorizando los datos actualizados.
 
                 Datos actuales de los productos disponibles:
                 ${requests.map(req => `
                 - Producto: ${req.product.name}, Cantidad: ${req.product.quantity}, Precio: ${req.product.price}, Tipo de solicitud: ${req.requestType}
                 `).join('\n')}
 
+                ${history && `Historial de la conversación hasta ahora:\n${history}`}
+        
                 Reglas importantes de la plataforma:
                 - Los precios son transparentes y negociables entre compradores y vendedores.
                 - Los usuarios pueden establecer un radio geográfico para sus ofertas o búsquedas.
-
-                Ahora, responde a la pregunta del usuario considerando esta información y devuelve la respuesta en formato Markdown directo en un string no ponerle los decoradores \`\`\`markdown \`\`\`.
+        
+                Ahora, responde a la pregunta del usuario considerando esta información y devuelve la respuesta en formato Markdown directo en un string no ponerle los decoradores \`\`\`markdown \`\`\` ni string = "[contenido de la respuesta]", la idea es que sea: [contenido de la respuesta].
                 Usuario pregunta: "${userInput}"
             `;
 
