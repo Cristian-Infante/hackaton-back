@@ -28,4 +28,14 @@ router.delete('/supplier/:id', authMiddleware, roleMiddleware(['administrador'])
     supplierController.deleteSupplier(req, res);
 });
 
+router.post('/suppliers/:supplierId/products', authMiddleware, (req, res) => {
+    // #swagger.tags = ['Suppliers']
+    supplierController.addProduct(req, res);
+});
+
+router.delete('/suppliers/:supplierId/products/:productId', authMiddleware, (req, res) => {
+    // #swagger.tags = ['Suppliers']
+    supplierController.removeProduct(req, res);
+});
+
 module.exports = router;

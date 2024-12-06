@@ -35,6 +35,7 @@ class AuthController {
             if (process.env.NODE_ENV !== 'production') {
                 return res.status(200).json({ token, message: 'Inicio de sesión exitoso.' });
             }
+            
             return res.status(200).json({ message: 'Inicio de sesión exitoso.' });
         } catch (error) {
             res.status(400).json({ message: error.message });

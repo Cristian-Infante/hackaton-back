@@ -1,10 +1,10 @@
-const Company = require('../models/Company');
+const companyService = require('../services/CompanyService');
 
 class CompanyController {
     // Listar todas las empresas
     async getCompanies(req, res) {
         try {
-            const companies = await Company.find().populate('user', 'name email'); // Población para mostrar el usuario asociado
+            const companies = await companyService.getAllCompanies();
             res.status(200).json({
                 message: "Lista de empresas obtenida exitosamente",
                 data: companies
@@ -18,12 +18,9 @@ class CompanyController {
     // Obtener una empresa por ID
     async getCompany(req, res) {
         try {
-            const { id } = req.params;
-            const company = await Company.findById(id).populate('user', 'name email');
 
-            if (!company) {
-                return res.status(404).json({ message: "Empresa no encontrada" });
-            }
+            const { id } = req.params;
+            const company = await companyService.getCompanyById(id);
 
             res.status(200).json({
                 message: "Empresa obtenida exitosamente",
@@ -43,19 +40,9 @@ class CompanyController {
     // Guardar una nueva empresa
     async saveCompany(req, res) {
         try {
-            const { companyName, nit, productsRequired, contact, userId } = req.body;
 
-            if (!companyName || !nit || !contact || !userId) {
-                return res.status(400).json({ message: "Campos obligatorios faltantes" });
-            }
-
-            const newCompany = new Company({
-                companyName,
-                nit,
-                productsRequired, // Lista de productos requeridos
-                contact,
-                user: userId // Relación con el usuario
-            });
+            const companyData = req.body;
+            const newCompany = await companyService.createCompany(companyData);
 
             await newCompany.save();
             res.status(201).json({ message: "Empresa registrada exitosamente", data: newCompany });
@@ -73,12 +60,9 @@ class CompanyController {
     // Eliminar una empresa por ID
     async deleteCompany(req, res) {
         try {
+            
             const { id } = req.params;
-            const deletedCompany = await Company.findByIdAndDelete(id);
-
-            if (!deletedCompany) {
-                return res.status(404).json({ message: "Empresa no encontrada" });
-            }
+            const deletedCompany = await companyService.deleteCompanyById(id);
 
             res.status(200).json({
                 message: "Empresa eliminada exitosamente",
