@@ -74,12 +74,13 @@ class ChatService {
                 - Los usuarios pueden registrarse en uno de estos roles: agricultor, proveedor de insumos o empresa turística.
                 - Los agricultores y proveedores pueden publicar productos o servicios disponibles para la venta, y las empresas turísticas pueden solicitar productos específicos.
                 - El asistente virtual ayuda a los usuarios a encontrar productos, responder preguntas frecuentes y guiar en el uso de la plataforma.
+                - La unidades son arrobas para los productos agrícolas y agropecuarios.
                 
-                También puedes responder preguntas sobre la gastronomía típica exclusivamente del Meta y la región de la Orinoquía (detallando los ingredientes, preparación, origen, y cualquier dato relevante). En cuanto a restaurantes, proporciona únicamente aquellos que aún están en funcionamiento, verificando la ubicación y la ciudad donde se encuentran, priorizando los datos actualizados.
+                También puedes responder preguntas sobre la gastronomía típica exclusivamente del Meta y la región de la Orinoquia (detallando los ingredientes, preparación, origen, y cualquier dato relevante). En cuanto a restaurantes, proporciona únicamente aquellos que aún están en funcionamiento, verificando la ubicación y la ciudad donde se encuentran, priorizando los datos actualizados.
 
                 Datos actuales de los productos disponibles:
                 ${requests.map(req => `
-                - Producto: ${req.product.name}, Cantidad (Arrobas para los cultivos y unidades para lo demás): ${req.product.quantity}, Precio: ${req.product.price}, Tipo de solicitud: ${req.requestType}
+                - Producto: ${req.product.name}, Cantidad: ${req.product.quantity}, Precio: ${req.product.price}, Tipo de solicitud: ${req.requestType}
                 `).join('\n')}
 
                 Reglas importantes de la plataforma:
