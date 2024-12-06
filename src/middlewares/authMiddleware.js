@@ -2,13 +2,15 @@
 
 const authMiddleware = async (req, res, next) => {
     try {
-        const session = req.cookies.session;
-        if (!session || !session.token) {
+        const sessionCookie = req.cookies.session;
+        if (!sessionCookie) {
             return res.status(401).json({ message: 'No estás autenticado.' });
         }
 
-        // Verificar el token JWT
-        const decoded = jwt.verify(session.token, process.env.JWT_KEY);
+        const sessionData = JSON.parse(sessionCookie);
+        const token = sessionData.token;
+
+        const decoded = jwt.verify(token, process.env.JWT_KEY);
         req.user = { id: decoded.id, role: decoded.role };
         next();
     } catch (error) {

@@ -23,20 +23,20 @@ class AuthController {
             // Autenticar usuario y generar token
             const { token, userInfo } = await authService.login(email, password);
 
-            // Configurar cookie segura con el token y datos del usuario
-            res.cookie('session', { token, name: userInfo.name, email: userInfo.email, role: userInfo.role }, {
+            // Configurar cookie segura con solo el token
+            res.cookie('session', JSON.stringify({ token, name: userInfo.name, email: userInfo.email, role: userInfo.role }), {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'none',
-                maxAge: 60 * 60 * 1000, // Expira en 1 hora
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+                maxAge: 60 * 60 * 1000,
             });
 
             // Enviar el token en el cuerpo solo para pruebas (no en producción)
             if (process.env.NODE_ENV !== 'production') {
-                return res.status(200).json({ token, message: 'Inicio de sesión exitoso.' });
+                return res.status(200).json({ token, message: 'Inicio de sesión exitoso.', userInfo });
             }
             
-            return res.status(200).json({ message: 'Inicio de sesión exitoso.' });
+            return res.status(200).json({ message: 'Inicio de sesión exitoso.', userInfo });
         } catch (error) {
             res.status(400).json({ message: error.message });
         }

@@ -84,13 +84,7 @@ class ChatService {
                 - Los precios son transparentes y negociables entre compradores y vendedores.
                 - Los usuarios pueden establecer un radio geográfico para sus ofertas o búsquedas.
                 
-                Ahora, responde a la pregunta del usuario considerando esta información.
-                **Instrucciones para el formato de la respuesta:**
-                Devuelve tu respuesta como un JSON con el siguiente formato:
-                {
-                    "format": "markdown",
-                    "content": "Aquí incluye tu respuesta en formato Markdown."
-                }
+                Ahora, responde a la pregunta del usuario considerando esta información y devuelve la respuesta en formato Markdown directo en un string no ponerle los decoradores \`\`\`markdown \`\`\`.
                 Usuario pregunta: "${userInput}"
             `;
             const response = await openaiService.askQuestion(context);
