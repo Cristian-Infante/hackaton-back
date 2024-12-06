@@ -27,8 +27,8 @@ class AuthController {
             res.cookie('session', { token, name: userInfo.name, email: userInfo.email, role: userInfo.role }, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
-                maxAge: 60 * 60 * 1000,
+                sameSite: 'none',
+                maxAge: 60 * 60 * 1000, // Expira en 1 hora
             });
 
             // Enviar el token en el cuerpo solo para pruebas (no en producción)

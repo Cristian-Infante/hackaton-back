@@ -17,6 +17,7 @@ router.get('/offers/:requestId', authMiddleware, (req, res) => {
 });
 
 router.delete('/offer/:requestId/:offerId', authMiddleware,  roleMiddleware(['administrador']), (req, res) => {
+    // #swagger.tags = ['Offer']
     offerController.deleteOffer(req, res);
 });
 

@@ -22,16 +22,26 @@ class ChatService {
         }
     }
 
-    findSimilarQuestion(userInput) {
-        userInput = userInput.toLowerCase();
+    // Método de clase para normalizar cadenas
+    removeDiacritics(str) {
+        return str
+            .normalize('NFD') // Descompone caracteres con acentos en base + diacrítico
+            .replace(/[\u0300-\u036f]/g, '') // Elimina los diacríticos (acentos)
+            .replace(/[!¡¿?.,:;]/g, '') // Elimina los símbolos de puntuación
+            .toLowerCase(); // Convierte todo a minúsculas
+    }
 
-        // Extraemos todas las preguntas en minúsculas
-        const questions = this.dictionary.map(item => item.question.toLowerCase());
+    findSimilarQuestion(userInput) {
+        // Normalizamos la entrada del usuario
+        const normalizedInput = this.removeDiacritics(userInput);
+
+        // Normalizamos las preguntas del diccionario
+        const questions = this.dictionary.map(item => this.removeDiacritics(item.question));
 
         // Utilizamos string-similarity para encontrar la mejor coincidencia
-        const { bestMatch, bestMatchIndex } = stringSimilarity.findBestMatch(userInput, questions);
+        const { bestMatch, bestMatchIndex } = stringSimilarity.findBestMatch(normalizedInput, questions);
 
-        console.log(`Similitudes: ${JSON.stringify(bestMatch)}`);
+        console.log(`Pregunta del usuario: ${userInput} - Mejor coincidencia: ${bestMatch.target} - Puntaje: ${bestMatch.rating}`);
 
         // Por ejemplo, establecemos un umbral de similitud
         const threshold = 0.5;
@@ -48,12 +58,18 @@ class ChatService {
 
         if (matchedQuestion) {
             // Si hay una pregunta similar en el diccionario, devuelve la respuesta
-            return matchedQuestion.answer;
+            return {
+                format: 'markdown',
+                content: matchedQuestion.answer,
+            };
         } else {
             // Si no hay una pregunta similar, generar contexto y usar OpenAI
             const requests = await Request.find({ status: 'activa' }).lean(); // Datos de los productos activos
             const context = `
                 Contexto de la plataforma:
+                - La plataforma se llama MetAgro. 
+                - MetAgro es una plataforma digital diseñada para transformar la interacción entre los productores agrícolas y agropecuarios y las empresas turísticas del departamento del Meta. 
+                - Su nombre fusiona "Meta" y "Agro", reflejando su enfoque en fortalecer la economía agrícola y agropecuaria de la región mientras promueve su integración con el sector turístico.
                 - La plataforma está diseñada para facilitar la interacción entre agricultores, empresas turísticas y proveedores de insumos agrícolas.
                 - Los usuarios pueden registrarse en uno de estos roles: agricultor, proveedor de insumos o empresa turística.
                 - Los agricultores y proveedores pueden publicar productos o servicios disponibles para la venta, y las empresas turísticas pueden solicitar productos específicos.
@@ -69,9 +85,26 @@ class ChatService {
                 - Los usuarios pueden establecer un radio geográfico para sus ofertas o búsquedas.
                 
                 Ahora, responde a la pregunta del usuario considerando esta información.
+                **Instrucciones para el formato de la respuesta:**
+                Devuelve tu respuesta como un JSON con el siguiente formato:
+                {
+                    "format": "markdown",
+                    "content": "Aquí incluye tu respuesta en formato Markdown."
+                }
                 Usuario pregunta: "${userInput}"
-                `;
-            return await openaiService.askQuestion(context);
+            `;
+            const response = await openaiService.askQuestion(context);
+
+            // Intenta analizar la respuesta en JSON, pero devuelve texto bruto si falla
+            try {
+                return JSON.parse(response);
+            } catch (error) {
+                console.error('Error al parsear la respuesta de OpenAI como JSON:', error.message);
+                return {
+                    format: 'markdown',
+                    content: response.trim(), // Devolver el texto original como markdown si el análisis falla
+                };
+            }
         }
     }
 }

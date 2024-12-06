@@ -29,6 +29,9 @@
           "200": {
             "description": "OK"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -246,6 +249,12 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
           "500": {
             "description": "Internal Server Error"
           }
@@ -254,6 +263,9 @@
     },
     "/peasants/{peasantId}/products/{productId}": {
       "delete": {
+        "tags": [
+          "Peasants"
+        ],
         "description": "",
         "parameters": [
           {
@@ -275,6 +287,12 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
           },
           "500": {
             "description": "Internal Server Error"
@@ -750,6 +768,9 @@
     },
     "/offer/{requestId}/{offerId}": {
       "delete": {
+        "tags": [
+          "Offer"
+        ],
         "description": "",
         "parameters": [
           {
@@ -951,6 +972,9 @@
           },
           "400": {
             "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "500": {
             "description": "Internal Server Error"

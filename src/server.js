@@ -14,7 +14,6 @@ const server = () => {
 
     app.use(cors({
         origin: (origin, callback) => {
-            console.log('Origin recibido:', origin);
             if (!origin || allowedOrigins.includes(origin)) {
                 return callback(null, true);
             }
@@ -28,6 +27,17 @@ const server = () => {
     // Middleware para parsear JSON y cookies
     app.use(express.json());
     app.use(cookieParser());
+
+    // Middleware para registrar IP y endpoint
+    app.use((req, res, next) => {
+        const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress; // Obtener la IP del cliente
+        const endpoint = req.originalUrl; // Obtener el endpoint solicitado
+        const method = req.method; // Obtener el método HTTP
+        const date = new Date().toISOString(); // Obtener la fecha y hora en formato ISO
+
+        console.log(`[${date}] IP: ${ip} - Method: ${method} - Endpoint: ${endpoint}`);
+        next();
+    });
 
     // Rutas de la API
     app.use('/', appRoutes);
