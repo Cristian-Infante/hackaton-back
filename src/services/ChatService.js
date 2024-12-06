@@ -86,7 +86,7 @@ class ChatService {
                 - Los precios son transparentes y negociables entre compradores y vendedores.
                 - Los usuarios pueden establecer un radio geográfico para sus ofertas o búsquedas.
 
-                Ahora, responde a la pregunta del usuario considerando esta información y devuelve la respuesta en formato Markdown directo en un string no ponerle los decoradores \`\`\`markdown \`\`\` ni string = "[contenido de la respuesta]", la idea es que sea: "[contenido de la respuesta]".
+                Ahora, responde a la pregunta del usuario considerando esta información y devuelve la respuesta en formato Markdown directo en un string no ponerle los decoradores \`\`\`markdown \`\`\` ni string = "[contenido de la respuesta]", la idea es que sea: [contenido de la respuesta].
                 Usuario pregunta: "${userInput}"
             `;
 
