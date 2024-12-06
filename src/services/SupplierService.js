@@ -1,4 +1,5 @@
 const supplierRepository = require('../repositories/SupplierRepository');
+const UserRepository = require('../repositories/UserRepository');
 
 class SupplierService {
     // Listar todos los proveedores
@@ -22,6 +23,12 @@ class SupplierService {
 
         if (!supplierName || !nit || !contactPhone || !address || !userId) {
             throw new Error("Campos obligatorios faltantes");
+        }
+
+        const userFound = await UserRepository.findById(userId);
+
+        if(userFound){
+            throw new Error("Usuario ya registrado");
         }
 
         return await supplierRepository.create({

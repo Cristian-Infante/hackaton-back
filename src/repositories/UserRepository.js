@@ -1,6 +1,10 @@
 ﻿const User = require('../models/User');
 
 class UserRepository {
+
+    async findById(id){
+        return await User.findById(id);
+    }
     
     async findByEmail(email) {
         return await User.findOne({ email });

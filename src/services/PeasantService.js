@@ -1,4 +1,5 @@
 const peasantRepository = require('../repositories/PeasantRepository');
+const UserRepository = require('../repositories/UserRepository');
 
 class PeasantService {
     // Obtener todos los campesinos
@@ -25,6 +26,12 @@ class PeasantService {
 
         if (!farmName || !ubication || !ubication.latitude || !ubication.longitude || !userId) {
             throw new Error("Campos obligatorios faltantes");
+        }
+
+        const userFound = await UserRepository.findById(userId);
+
+        if(userFound){
+            throw new Error("Usuario ya registrado");
         }
 
         return await peasantRepository.create({

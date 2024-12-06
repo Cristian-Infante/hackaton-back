@@ -1,4 +1,5 @@
 const companyRepository = require('../repositories/CompanyRepository');
+const UserRepository = require('../repositories/UserRepository');
 
 class CompanyService {
     // Obtener todas las empresas
@@ -23,6 +24,12 @@ class CompanyService {
 
         if (!companyName || !nit || !contact || !userId) {
             throw new Error("Campos obligatorios faltantes");
+        }
+
+        const userFound = await UserRepository.findById(userId);
+
+        if(userFound){
+            throw new Error("Usuario ya registrado");
         }
 
         return await companyRepository.create({

@@ -31,7 +31,7 @@ class AuthService {
         if (!user || !(await bcrypt.compare(password, user.password))) {
             throw new Error('Credenciales inválidas');
         }
-        console.log("llego")
+
         //const token = jwt.generateToken({ id: user.id, role: user.role });
         const token = await this.createAccessToken({ id: user.id, role: user.role});
         return {
@@ -41,9 +41,9 @@ class AuthService {
     }
 
     async createAccessToken(payload){
-        console.log("emtro")
-        return new Promise((resolve, reject) => {
-            console.log("llego")
+
+        return new Promise((resolve, reject) => { 
+
             jwtToken.sign(
        
                 payload,
