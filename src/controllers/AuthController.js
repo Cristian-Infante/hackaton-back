@@ -24,7 +24,7 @@ class AuthController {
             const { token, userInfo } = await authService.login(email, password);
 
             res.cookie('session', JSON.stringify({ token, name: userInfo.name, email: userInfo.email, role: userInfo.role }), {
-                httpOnly: true,
+                httpOnly: false, // Permitir acceso del token desde el frontend mediante document.cookie o Cookies.get()
                 secure: process.env.NODE_ENV === 'production',
                 sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
                 maxAge: 60 * 60 * 1000,
