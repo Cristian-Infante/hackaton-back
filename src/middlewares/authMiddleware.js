@@ -3,20 +3,17 @@
 const authMiddleware = async (req, res, next) => {
     try {
 
-        console.log("auth")
-        console.log("auth")
-        console.log("auth")
+        const sessionCookie2 = req.cookies.session;
+        const sessionData = JSON.parse(sessionCookie2);
+        const jwt_key = process.env.JWT_KEY
 
-        const sessionCookie = req.cookies.session;
-        
-        console.log(sessionCookie)
-        console.log(sessionCookie)
+        console.log("---------------")
+        console.log('Session PARSED: ', sessionData.token)
+        console.log('Jwt Key: ', jwt_key);
+        console.log("---------------")
 
-        const sessionData = JSON.parse(sessionCookie);
-        const token = sessionData.token;
-
-        const decoded = jwt.verify(token, process.env.JWT_KEY);
-        req.user = { id: decoded.id, role: decoded.role };
+        const decoded = jwt.verify(sessionData.token, jwt_key);
+        req.user = { id: decoded.id };
         next();
     } catch (error) {
         res.status(401).json({ message: 'Token inválido o expirado.' });

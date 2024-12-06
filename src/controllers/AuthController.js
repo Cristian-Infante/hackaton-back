@@ -21,15 +21,17 @@ class AuthController {
             const { email, password } = req.body;
             // Autenticar usuario y generar token
             const { token, userInfo } = await authService.login(email, password);
-            console.log("token:", token)
+
+
+
             res.cookie('session', JSON.stringify({ token, name: userInfo.name, email: userInfo.email, role: userInfo.role }), {
 
-                httpOnly: true,
+                httpOnly: false,
                 secure: true,
                 sameSite: 'none',
                 maxAge: 60 * 60 * 1000,
             });
-            
+   
             return res.status(200).json({ token, message: 'Inicio de sesión exitoso.', userInfo });
         } catch (error) {
             res.status(400).json({ message: error.message });
@@ -39,7 +41,7 @@ class AuthController {
     async logout(req, res) {
         try {
             // Eliminar cookie de sesión
-            res.clearCookie('session');
+            res.clearCookie('token');
             res.status(200).json({ message: 'Logout exitoso.' });
         } catch (error) {
             res.status(500).json({ message: 'Error al cerrar sesión.' });

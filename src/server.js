@@ -12,6 +12,9 @@ const server = () => {
     const URL = process.env.DEPLOY_URL || 'localhost';
     const allowedOrigins = [`http://${URL}`, `https://${URL}`, `http://localhost:3000`, `http://localhost:3001`, `http://localhost:3002`, `https://front-hackaton-l1nl.vercel.app`];
 
+    app.use(express.json());
+    app.use(cookieParser());
+    
     app.use(cors({
         origin: (origin, callback) => {
             console.log(`Origin recibido: ${origin}`);
@@ -27,8 +30,7 @@ const server = () => {
     }));
 
     // Middleware para parsear JSON y cookies
-    app.use(express.json());
-    app.use(cookieParser());
+    
 
     // Middleware para registrar IP y endpoint
     app.use((req, res, next) => {

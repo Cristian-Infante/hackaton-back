@@ -20,6 +20,7 @@ class PeasantService {
     // Crear un nuevo campesino
     async createPeasant(peasantData) {
         
+        peasantData.user
         const { farmName, products, ubication, userId } = peasantData;
 
         if (!farmName || !ubication || !ubication.latitude || !ubication.longitude || !userId) {
