@@ -19,7 +19,7 @@ const requestSchema = new mongoose.Schema({
         enum: ['activa', 'cerrada'],
         default: 'activa'
     },
-    offers: { type: [offerSchema], default: [] } // Lista de ofertas asociadas a la solicitud
+    offers: { type: [offerSchema.schema], default: [] } // Lista de ofertas asociadas a la solicitud
 }, { timestamps: true });
 
 const Request = mongoose.model('Request', requestSchema);

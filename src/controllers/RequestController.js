@@ -1,26 +1,23 @@
 const Request = require('../models/Request');
+const requestService = require('../services/RequestService');
 
 class RequestController {
-    // Crear una nueva solicitud
+
     async createRequest(req, res) {
+
         try {
-            const { requestType, product, description, userId } = req.body;
+            const requestData = req.body; 
 
-            if (!requestType || !product || !product.name || !product.quantity || !product.price || !userId) {
-                return res.status(400).json({ message: "Campos obligatorios faltantes" });
-            }
+            const newRequest = await requestService.createRequest(requestData);
 
-            const newRequest = new Request({
-                requestType,
-                product,
-                description,
-                user: userId
-            });
-
-            await newRequest.save();
             res.status(201).json({ message: "Solicitud creada exitosamente", data: newRequest });
         } catch (error) {
             console.error("Error al crear la solicitud: ", error);
+
+            if (error.message === "Campos obligatorios faltantes") {
+                return res.status(400).json({ message: error.message });
+            }
+
             res.status(500).json({ message: "Error del servidor al crear la solicitud" });
         }
     }
@@ -28,6 +25,7 @@ class RequestController {
     // Listar todas las solicitudes
     async getRequests(req, res) {
         try {
+
             const requests = await Request.find().populate('user', 'name email');
             res.status(200).json({
                 message: "Lista de solicitudes obtenida exitosamente",

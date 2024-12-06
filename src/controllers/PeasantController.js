@@ -1,11 +1,12 @@
-const Peasant = require('../models/Peasant');
+const peasantService = require('../services/PeasantService');
 
-class UserController {
+class PeasantController {
     
-    // Obtener todos los campesinos
+
     async getPeasants(req, res) {
+
         try {
-            const peasants = await Peasant.find(); // Obtiene todos los registros
+            const peasants = await peasantService.getAllPeasants();
             res.status(200).json({
                 message: "Lista de todos los campesinos obtenida exitosamente",
                 data: peasants
@@ -16,27 +17,18 @@ class UserController {
         }
     }
 
-    // Obtener un campesino por su ID
     async getPeasant(req, res) {
         try {
+
             const { id } = req.params;
-            const peasant = await Peasant.findById(id).populate('user', 'name email role'); // Incluye datos del usuario
-    
-            if (!peasant) {
-                return res.status(404).json({ message: "Campesino no encontrado" });
-            }
-    
+            const peasant = await peasantService.getPeasantById(id); 
+              
             res.status(200).json({
                 message: "Campesino obtenido exitosamente",
                 data: peasant
             });
         } catch (error) {
-            console.error("Error al obtener el campesino: ", error);
-    
-            if (error.kind === "ObjectId") {
-                return res.status(400).json({ message: "ID inválido" });
-            }
-    
+            console.error("Error al obtener el campesino: ", error); 
             res.status(500).json({ message: "Error del servidor al obtener el campesino" });
         }
     }
@@ -44,20 +36,9 @@ class UserController {
     // Guardar un nuevo campesino
     async savePeasant(req, res) {
         try {
-            const { farmName, products, ubication, userId } = req.body;
 
-            if (!farmName || !ubication || !ubication.latitude || !ubication.longitude || !userId) {
-                return res.status(400).json({ message: "Campos obligatorios faltantes" });
-            }
-
-            const newPeasant = new Peasant({
-                farmName,
-                products,
-                ubication,
-                user: userId // Relación con el usuario
-            });
-
-            await newPeasant.save();
+            const peasantData = req.body;
+            const newPeasant = await peasantService.createPeasant(peasantData);       
             res.status(201).json({ message: "Campesino registrado exitosamente", data: newPeasant });
         } catch (error) {
             console.error("Error al guardar el campesino: ", error);
@@ -69,12 +50,7 @@ class UserController {
     async deletePeasant(req, res) {
         try {
             const { id } = req.params; // Extrae el ID de los parámetros de la ruta
-            const deletedPeasant = await Peasant.findByIdAndDelete(id); // Elimina el campesino por su ID
-
-            if (!deletedPeasant) {
-                return res.status(404).json({ message: "Campesino no encontrado" });
-            }
-
+            const deletedPeasant = await peasantService.deletePeasantById(id); // Elimina el campesino por su ID
             res.status(200).json({
                 message: "Campesino eliminado exitosamente",
                 data: deletedPeasant
@@ -82,15 +58,54 @@ class UserController {
         } catch (error) {
             console.error("Error al eliminar el campesino: ", error);
 
-            // Manejo de errores para IDs malformados
-            if (error.kind === "ObjectId") {
-                return res.status(400).json({ message: "ID inválido" });
+            res.status(500).json({ message: "Error del servidor al eliminar el campesino" });
+        }
+    }
+
+    async addProduct(req, res) {
+        try {
+            const { peasantId } = req.params;
+            const product = req.body;
+
+            const updatedPeasant = await peasantService.addProductToPeasant(peasantId, product);
+
+            res.status(200).json({
+                message: "Producto agregado exitosamente",
+                data: updatedPeasant
+            });
+        } catch (error) {
+            console.error("Error al agregar el producto: ", error);
+
+            if (error.message === "Campesino no encontrado" || error.message === "Información del producto incompleta") {
+                return res.status(400).json({ message: error.message });
             }
 
-            res.status(500).json({ message: "Error del servidor al eliminar el campesino" });
+            res.status(500).json({ message: "Error del servidor al agregar el producto" });
+        }
+    }
+
+    // Eliminar un producto de un campesino
+    async removeProduct(req, res) {
+        try {
+            const { peasantId, productId } = req.params;
+
+            const updatedPeasant = await peasantService.removeProductFromPeasant(peasantId, productId);
+
+            res.status(200).json({
+                message: "Producto eliminado exitosamente",
+                data: updatedPeasant
+            });
+        } catch (error) {
+            console.error("Error al eliminar el producto: ", error);
+
+            if (error.message === "Campesino no encontrado" || error.message === "Producto no encontrado en la lista del campesino") {
+                return res.status(400).json({ message: error.message });
+            }
+
+            res.status(500).json({ message: "Error del servidor al eliminar el producto" });
         }
     }
 
 }
 
-module.exports = new UserController();
+module.exports = new PeasantController();

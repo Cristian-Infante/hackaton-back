@@ -27,4 +27,15 @@ router.delete('/peasant/:id', authMiddleware, roleMiddleware(['administrador']),
     peasantController.deletePeasant(req, res);
 });
 
+router.post('/peasants/:peasantId/products', authMiddleware, roleMiddleware(['administrador', 'agricultor']), (req, res) => {
+    // #swagger.tags = ['Peasants']
+    peasantController.addProduct(req, res);
+});
+
+// Eliminar un producto de un campesino
+router.delete('/peasants/:peasantId/products/:productId', authMiddleware, roleMiddleware(['administrador', 'agricultor']),  (req, res) => {
+    // #swagger.tags = ['Peasants']
+    peasantController.removeProduct(req, res);
+});
+
 module.exports = router;

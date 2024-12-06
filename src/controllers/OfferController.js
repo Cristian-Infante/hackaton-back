@@ -21,6 +21,17 @@ class OfferController {
                 return res.status(400).json({ message: "No se pueden agregar ofertas a solicitudes cerradas" });
             }
 
+            const availableQuantity = request.product.quantity; // Cantidad máxima disponible
+
+            console.log("Cantidad disponible:", availableQuantity);
+            console.log("Cantidad solicitada:", quantity);
+
+            if (quantity > availableQuantity) {
+                return res.status(400).json({ 
+                    message: `La cantidad ofrecida (${quantity}) excede la cantidad disponible (${availableQuantity}).`
+                });
+            }
+
             // Crear la oferta
             const newOffer = { user: userId, quantity, price };
             request.offers.push(newOffer);
@@ -53,6 +64,37 @@ class OfferController {
         } catch (error) {
             console.error("Error al obtener las ofertas: ", error);
             res.status(500).json({ message: "Error del servidor al obtener las ofertas" });
+        }
+    }
+
+    async deleteOffer(req, res) {
+        try {
+            const { requestId, offerId } = req.params;
+
+            // Buscar la solicitud asociada
+            const request = await Request.findById(requestId);
+
+            if (!request) {
+                return res.status(404).json({ message: "Solicitud no encontrada" });
+            }
+
+            // Buscar la oferta dentro de la solicitud
+            const offerIndex = request.offers.findIndex(offer => offer._id.toString() === offerId);
+
+            if (offerIndex === -1) {
+                return res.status(404).json({ message: "Oferta no encontrada" });
+            }
+
+            // Eliminar la oferta de la lista
+            request.offers.splice(offerIndex, 1);
+
+            // Guardar los cambios en la solicitud
+            await request.save();
+
+            res.status(200).json({ message: "Oferta eliminada exitosamente" });
+        } catch (error) {
+            console.error("Error al eliminar la oferta: ", error);
+            res.status(500).json({ message: "Error del servidor al eliminar la oferta" });
         }
     }
 }

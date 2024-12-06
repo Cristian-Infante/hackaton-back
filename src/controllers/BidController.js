@@ -12,6 +12,22 @@ class BidController {
                 return res.status(400).json({ message: "Campos obligatorios faltantes" });
             }
 
+            try {
+                const offer = await Request.findById(offerId);
+                console.log(offer)
+                console.log(offer)
+            } catch (error) {
+                return res.status(404).json({ message: "Oferta no encontrada" });
+            }
+
+            console.log("llego")
+
+            try {
+                await Request.findById(senderId);
+            } catch (error) {
+                return res.status(404).json({ message: "Usuario no encontrado" });
+            }
+
             const newBid = new Bid({
                 offer: offerId,
                 sender: senderId,

@@ -8,5 +8,6 @@ const offerSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now } // Fecha de creación
 });
 
-// Exportar el esquema para ser utilizado dentro del esquema de solicitudes
-module.exports = offerSchema;
+const Offer = mongoose.model('Offer', offerSchema);
+
+module.exports = Offer;
