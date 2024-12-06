@@ -3,7 +3,15 @@
 const authMiddleware = async (req, res, next) => {
     try {
 
+        console.log("auth")
+        console.log("auth")
+        console.log("auth")
+
         const sessionCookie = req.cookies.session;
+        
+        console.log(sessionCookie)
+        console.log(sessionCookie)
+
         const sessionData = JSON.parse(sessionCookie);
         const token = sessionData.token;
 

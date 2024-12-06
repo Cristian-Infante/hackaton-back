@@ -1,6 +1,7 @@
 ﻿const bcrypt = require('bcrypt');
 const jwt = require('../utils/jwt');
 const userRepository = require('../repositories/UserRepository');
+const jwtToken = require('jsonwebtoken');
 
 class AuthService {
     async register(userData) {
@@ -30,12 +31,34 @@ class AuthService {
         if (!user || !(await bcrypt.compare(password, user.password))) {
             throw new Error('Credenciales inválidas');
         }
-
-        const token = jwt.generateToken({ id: user.id, role: user.role });
+        console.log("llego")
+        //const token = jwt.generateToken({ id: user.id, role: user.role });
+        const token = await this.createAccessToken({ id: user.id, role: user.role});
         return {
             token,
             userInfo: { name: user.name, email: user.email, role: user.role },
         };
+    }
+
+    async createAccessToken(payload){
+        console.log("emtro")
+        return new Promise((resolve, reject) => {
+            console.log("llego")
+            jwtToken.sign(
+       
+                payload,
+                process.env.JWT_KEY,
+                {
+                expiresIn: "1d",
+                },
+                (error, token) => {
+                    
+                    if (error) reject(error);
+                    resolve(token)            
+                }
+            )    
+        })
+
     }
 }
 
