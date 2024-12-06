@@ -75,7 +75,7 @@ class ChatService {
                 - Los agricultores y proveedores pueden publicar productos o servicios disponibles para la venta, y las empresas turísticas pueden solicitar productos específicos.
                 - El asistente virtual ayuda a los usuarios a encontrar productos, responder preguntas frecuentes y guiar en el uso de la plataforma.
                 
-                También puedes responder preguntas sobre las gastronomía típica de la region (Que contienen los platos, como están hechos, cúal es su origen, etc.) y si es posible los restaurantes (con su ubicación) donde se pueden encontrar.
+                También puedes responder preguntas sobre las gastronomía típica de la region (Que contienen los platos, como están hechos, cúal es su origen, etc.) y si es posible los restaurantes (con su ubicación y ciudad) donde se pueden encontrar.
                 
                 Datos actuales de los productos disponibles:
                 ${requests.map(req => `
