@@ -89,24 +89,34 @@ class RequestController {
 
             console.log(`Controller: latitude: ${latitude}, longitude: ${longitude}, radiusKm: ${radiusKm}`);
 
-            if (!latitude || !longitude || !radiusKm) {
-                return res.status(400).json({ message: "Faltan parámetros: latitude, longitude o radiusKm" });
+            if (!latitude || !longitude) {
+                return res.status(400).json({ message: "Faltan parámetros: latitude o longitude" });
             }
 
             // Reemplazar comas con puntos antes de convertir a número
             const lat = parseFloat(latitude.replace(',', '.'));
             const long = parseFloat(longitude.replace(',', '.'));
-            const radius = parseFloat(radiusKm.replace(',', '.'));
 
-            if (isNaN(lat) || isNaN(long) || isNaN(radius)) {
-                return res.status(400).json({ message: "Los parámetros latitude, longitude y radiusKm deben ser números válidos." });
+            if (isNaN(lat) || isNaN(long)) {
+                return res.status(400).json({ message: "Los parámetros latitude y longitude deben ser números válidos." });
             }
 
-            const filteredRequests = await requestService.filterByLocation(lat, long, radius);
+            let filteredRequests;
+
+            // Si no se proporciona radiusKm, devolver todas las solicitudes
+            if (!radiusKm) {
+                filteredRequests = await requestService.getAllRequests();
+            } else {
+                const radius = parseFloat(radiusKm.replace(',', '.'));
+                if (isNaN(radius)) {
+                    return res.status(400).json({ message: "El parámetro radiusKm debe ser un número válido." });
+                }
+                filteredRequests = await requestService.filterByLocation(lat, long, radius);
+            }
 
             res.status(200).json({
                 message: "Filtrado de solicitudes por ubicación exitoso",
-                data: filteredRequests
+                data: filteredRequests,
             });
         } catch (error) {
             console.error("Error al filtrar solicitudes por ubicación: ", error);
