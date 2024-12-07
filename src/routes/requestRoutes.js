@@ -28,4 +28,10 @@ router.delete('/request/:id', authMiddleware, (req, res) => {
     requestController.deleteRequest(req, res);
 });
 
+// Ruta para filtrar solicitudes por ubicación
+router.get('/requests/filter/location', authMiddleware, (req, res) => {
+    // #swagger.tags = ['Request']
+    requestController.filterRequestsByLocation(req, res);
+});
+
 module.exports = router;

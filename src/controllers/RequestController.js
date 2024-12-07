@@ -1,4 +1,3 @@
-const Request = require('../models/Request');
 const requestService = require('../services/RequestService');
 
 class RequestController {
@@ -41,7 +40,6 @@ class RequestController {
     // Obtener una solicitud por ID
     async getRequest(req, res) {
         try {
-            
             const { id } = req.params;
             const request = await requestService.getRequestById(id);
                
@@ -82,6 +80,37 @@ class RequestController {
             }
 
             res.status(500).json({ message: "Error del servidor al eliminar la solicitud" });
+        }
+    }
+
+    async filterRequestsByLocation(req, res) {
+        try {
+            const { latitude, longitude, radiusKm } = req.query;
+
+            console.log(`Controller: latitude: ${latitude}, longitude: ${longitude}, radiusKm: ${radiusKm}`);
+
+            if (!latitude || !longitude || !radiusKm) {
+                return res.status(400).json({ message: "Faltan parámetros: latitude, longitude o radiusKm" });
+            }
+
+            // Reemplazar comas con puntos antes de convertir a número
+            const lat = parseFloat(latitude.replace(',', '.'));
+            const long = parseFloat(longitude.replace(',', '.'));
+            const radius = parseFloat(radiusKm.replace(',', '.'));
+
+            if (isNaN(lat) || isNaN(long) || isNaN(radius)) {
+                return res.status(400).json({ message: "Los parámetros latitude, longitude y radiusKm deben ser números válidos." });
+            }
+
+            const filteredRequests = await requestService.filterByLocation(lat, long, radius);
+
+            res.status(200).json({
+                message: "Filtrado de solicitudes por ubicación exitoso",
+                data: filteredRequests
+            });
+        } catch (error) {
+            console.error("Error al filtrar solicitudes por ubicación: ", error);
+            res.status(500).json({ message: "Error del servidor" });
         }
     }
 }

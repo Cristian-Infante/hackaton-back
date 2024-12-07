@@ -8,7 +8,7 @@ class AuthService {
         const { name, email, password, role } = userData;
 
         // Validar rol
-        if (!['agricultor', 'proveedor', 'empresa turística', 'administrador'].includes(role)) {
+        if (!['agricultor', 'proveedor', 'empresa turistica', 'administrador'].includes(role)) {
             throw new Error('El rol proporcionado no es válido');
         }
 
@@ -58,7 +58,6 @@ class AuthService {
                 }
             )    
         })
-
     }
 }
 
