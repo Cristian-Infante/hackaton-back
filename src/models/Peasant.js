@@ -8,7 +8,8 @@ const productSchema = new mongoose.Schema({
 const peasantSchema = new mongoose.Schema({
     farmName: { type: String, required: true },
     contact: { type: String, required: true }, // Número de contacto
-    products: { type: [productSchema], default: [] }, // Lista de productos
+    products: { type: [productSchema], default: [] },
+    address: { type: String, required: true }, // Direccion
     ubication: {
         latitude: { type: Number, required: true },
         longitude: { type: Number, required: true },

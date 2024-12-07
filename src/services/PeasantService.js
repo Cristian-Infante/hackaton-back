@@ -24,7 +24,7 @@ class PeasantService {
     async createPeasant(peasantData) {
         
         peasantData.user
-        const { farmName, contact, ubication, userId } = peasantData;
+        const { farmName, contact, address, ubication, userId, } = peasantData;
 
         if (!farmName || !contact || !ubication || !ubication.latitude || !ubication.longitude || !userId) {
             throw new Error("Campos obligatorios faltantes");
@@ -41,7 +41,9 @@ class PeasantService {
 
         return await peasantRepository.create({
             farmName,
+            contact,
             products,
+            address,
             ubication,
             user: userId
         });
