@@ -39,6 +39,7 @@ router.delete('/suppliers/:supplierId/products/:productId', authMiddleware, (req
 });
 
 router.put('/supplier/:id', authMiddleware, roleMiddleware(['administrador', 'proveedor']), (req, res) => {
+    // #swagger.tags = ['Suppliers']
     supplierController.updateSupplier(req, res);
 });
 

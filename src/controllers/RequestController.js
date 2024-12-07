@@ -113,6 +113,37 @@ class RequestController {
             res.status(500).json({ message: "Error del servidor" });
         }
     }
+
+    async getClosestRequests(req, res) {
+        try {
+            const { latitude, longitude, limit } = req.query;
+
+            console.log(`Controller: latitude: ${latitude}, longitude: ${longitude}, limit: ${limit}`);
+
+            if (!latitude || !longitude) {
+                return res.status(400).json({ message: "Faltan parámetros: latitude o longitude" });
+            }
+
+            const lat = parseFloat(latitude.replace(',', '.'));
+            const long = parseFloat(longitude.replace(',', '.'));
+            const closestLimit = limit ? parseInt(limit) : 5; // Limitar a 5 por defecto
+
+            if (isNaN(lat) || isNaN(long)) {
+                return res.status(400).json({ message: "Los parámetros latitude y longitude deben ser números válidos." });
+            }
+
+            const closestRequests = await requestService.getClosestRequests(lat, long, closestLimit);
+
+            res.status(200).json({
+                message: "Filtrado de solicitudes más cercanas exitoso",
+                data: closestRequests,
+            });
+        } catch (error) {
+            console.error("Error al filtrar solicitudes más cercanas: ", error);
+            res.status(500).json({ message: "Error del servidor" });
+        }
+    }
+
 }
 
 module.exports = new RequestController();

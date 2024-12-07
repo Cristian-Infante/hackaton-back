@@ -39,6 +39,7 @@ router.delete('/peasants/:peasantId/products/:productId', authMiddleware, roleMi
 });
 
 router.put('/peasant/:id', authMiddleware, roleMiddleware(['administrador', 'agricultor']), (req, res) => {
+    // #swagger.tags = ['Peasants']
     peasantController.updatePeasant(req, res);
 });
 

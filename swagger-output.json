@@ -206,6 +206,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Peasants"
+        ],
         "description": "",
         "parameters": [
           {
@@ -402,6 +405,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Companies"
+        ],
         "description": "",
         "parameters": [
           {
@@ -532,6 +538,9 @@
         }
       },
       "put": {
+        "tags": [
+          "Suppliers"
+        ],
         "description": "",
         "parameters": [
           {
@@ -763,6 +772,45 @@
           },
           {
             "name": "radiusKm",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/requests/near": {
+      "get": {
+        "tags": [
+          "Request"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "latitude",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "limit",
             "in": "query",
             "type": "string"
           }

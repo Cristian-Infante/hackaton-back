@@ -28,7 +28,9 @@ router.delete('/company/:id', authMiddleware, roleMiddleware(['administrador']),
     companyController.deleteCompany(req, res);
 });
 
+// Actualizar una empresa por ID
 router.put('/company/:id', authMiddleware, roleMiddleware(['administrador', 'empresa turistica']), (req, res) => {
+    // #swagger.tags = ['Companies']
     companyController.updateCompany(req, res);
 });
 

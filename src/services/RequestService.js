@@ -61,12 +61,12 @@ class RequestService {
         for (const request of allRequests) {
             const userId = request.user;
 
-            // Determinar el repositorio a consultar según el tipo de usuario
+            // Obtener ubicación del usuario
             const userLocation = await this.getUserUbication(userId);
 
-            if (!userLocation) {
-                console.warn(`No se encontró ubicación para el usuario ${userId}. Omitiendo solicitud.`);
-                continue; // Saltar solicitudes sin ubicación
+            if (!userLocation || !userLocation.latitude || !userLocation.longitude) {
+                console.warn(`Usuario ${userId} no tiene una ubicación válida. Omitiendo solicitud.`);
+                continue; // Saltar solicitudes sin ubicación válida
             }
 
             console.log(`Ubicación del usuario ${userId}:`, userLocation);
@@ -78,11 +78,40 @@ class RequestService {
 
             // Convertir distancia a kilómetros y verificar si está dentro del radio
             if (distance / 1000 <= radiusKm) {
-                filteredRequests.push(request);
+                filteredRequests.push({ request, distance: distance / 1000 }); // Guardar la solicitud con su distancia
             }
         }
 
         return filteredRequests;
+    }
+
+    async getClosestRequests(latitude, longitude, limit = 5) {
+        const allRequests = await requestRepository.findAll();
+        const requestsWithDistance = [];
+
+        for (const request of allRequests) {
+            const userId = request.user;
+
+            // Obtener ubicación del usuario
+            const userLocation = await this.getUserUbication(userId);
+
+            if (!userLocation || !userLocation.latitude || !userLocation.longitude) {
+                console.warn(`Usuario ${userId} no tiene una ubicación válida. Omitiendo solicitud.`);
+                continue; // Saltar solicitudes sin ubicación válida
+            }
+
+            const distance = geolib.getDistance(
+                { latitude, longitude },
+                { latitude: userLocation.latitude, longitude: userLocation.longitude }
+            );
+
+            requestsWithDistance.push({ request, distance: distance / 1000 }); // Agregar solicitud con su distancia
+        }
+
+        // Ordenar por distancia ascendente y devolver las más cercanas
+        return requestsWithDistance
+            .sort((a, b) => a.distance - b.distance)
+            .slice(0, limit); // Limitar a las `N` más cercanas
     }
 
     // Método para obtener la ubicación del usuario basado en el tipo

@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const requestController = require('../controllers/RequestController');
-const roleMiddleware = require("../middlewares/roleMiddleware");
 const authMiddleware = require("../middlewares/authMiddleware"); // Controlador de autenticación
 
 // Crear una nueva solicitud
@@ -28,10 +27,16 @@ router.delete('/request/:id', authMiddleware, (req, res) => {
     requestController.deleteRequest(req, res);
 });
 
-// Ruta para filtrar solicitudes por ubicación
+// Filtrar solicitudes por ubicación
 router.get('/requests/filter/location', authMiddleware, (req, res) => {
     // #swagger.tags = ['Request']
     requestController.filterRequestsByLocation(req, res);
+});
+
+// Obtener solicitudes más cercanas
+router.get('/requests/near', authMiddleware, (req, res) => {
+    // #swagger.tags = ['Request']
+    requestController.getClosestRequests(req, res);
 });
 
 module.exports = router;
