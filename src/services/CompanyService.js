@@ -55,6 +55,19 @@ class CompanyService {
 
         return deletedCompany;
     }
+
+    async updateCompany(id, updateData) {
+        // Evitar actualizaciones en campos no permitidos
+        delete updateData._id;
+
+        const updatedCompany = await companyRepository.update(id, updateData);
+
+        if (!updatedCompany) {
+            throw new Error("Empresa no encontrada");
+        }
+
+        return updatedCompany;
+    }
 }
 
 module.exports = new CompanyService();

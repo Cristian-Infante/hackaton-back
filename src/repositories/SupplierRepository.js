@@ -3,12 +3,12 @@ const Supplier = require('../models/Supplier');
 class SupplierRepository {
     // Listar todos los proveedores
     async findAll() {
-        return await Supplier.find().populate('user', 'name email');
+        return await Supplier.find().populate('user', 'name email role');
     }
 
     // Obtener un proveedor por ID
     async findById(id) {
-        return await Supplier.findById(id).populate('user', 'name email');
+        return await Supplier.findById(id).populate('user', 'name email role');
     }
 
     async findByUserId(userId) {
@@ -42,6 +42,10 @@ class SupplierRepository {
             { $pull: { productsOffered: { _id: productId } } },
             { new: true }
         );
+    }
+
+    async update(id, updateData) {
+        return await Supplier.findByIdAndUpdate(id, updateData, { new: true });
     }
 }
 

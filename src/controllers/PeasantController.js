@@ -106,6 +106,23 @@ class PeasantController {
         }
     }
 
+    async updatePeasant(req, res) {
+        try {
+            const { id } = req.params;
+            const updateData = req.body; 
+            
+            const updatedPeasant = await peasantService.updatePeasant(id, updateData);
+
+            res.status(200).json({
+                message: "Campesino actualizado exitosamente",
+                data: updatedPeasant,
+            });
+        } catch (error) {
+            console.error("Error al actualizar el campesino:", error);
+            res.status(400).json({ message: error.message });
+        }
+    }
+
 }
 
 module.exports = new PeasantController();

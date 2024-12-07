@@ -78,6 +78,23 @@ class CompanyController {
             res.status(500).json({ message: "Error del servidor al eliminar la empresa" });
         }
     }
+
+    async updateCompany(req, res) {
+        try {
+            const { id } = req.params; // ID de la empresa a actualizar
+            const updateData = req.body; // Datos para la actualización
+            
+            const updatedCompany = await companyService.updateCompany(id, updateData);
+
+            res.status(200).json({
+                message: "Empresa actualizada exitosamente",
+                data: updatedCompany,
+            });
+        } catch (error) {
+            console.error("Error al actualizar la empresa:", error);
+            res.status(400).json({ message: error.message });
+        }
+    }
 }
 
 module.exports = new CompanyController();

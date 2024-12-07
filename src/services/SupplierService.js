@@ -82,6 +82,20 @@ class SupplierService {
         }
         return await supplierRepository.removeProduct(supplierId, productId);
     }
+
+    async updateSupplier(id, updateData) {
+        // Evitar actualizaciones en campos no permitidos
+        delete updateData._id;
+        delete updateData.productsOffered;
+
+        const updatedSupplier = await supplierRepository.update(id, updateData);
+
+        if (!updatedSupplier) {
+            throw new Error("Proveedor no encontrado");
+        }
+
+        return updatedSupplier;
+    }
 }
 
 module.exports = new SupplierService();
