@@ -1,4 +1,7 @@
 const companyRepository = require('../repositories/CompanyRepository');
+const PeasantRepository = require('../repositories/PeasantRepository');
+const CompanyRepository = require('../repositories/CompanyRepository');
+const SupplierRepository = require('../repositories/SupplierRepository');
 
 class CompanyService {
     // Obtener todas las empresas
@@ -25,13 +28,21 @@ class CompanyService {
             throw new Error("Campos obligatorios faltantes");
         }
 
+        const peasantFound = await PeasantRepository.findByUserId(userId);
+        const companyFound = await CompanyRepository.findByUserId(userId);
+        const supplierFound = await SupplierRepository.findByUserId(userId);
+        
+        if(peasantFound || companyFound || supplierFound){
+            throw new Error("Usuario ya registrado");
+        }
+
         return await companyRepository.create({
-            companyName,
-            nit,
-            contact,
-            user: userId
-        });
-    }
+                companyName,
+                nit,
+                contact,
+                user: userId
+            });
+        }
 
     // Eliminar una empresa por ID
     async deleteCompanyById(id) {

@@ -1,4 +1,7 @@
 const peasantRepository = require('../repositories/PeasantRepository');
+const PeasantRepository = require('../repositories/PeasantRepository');
+const CompanyRepository = require('../repositories/CompanyRepository');
+const SupplierRepository = require('../repositories/SupplierRepository');
 
 class PeasantService {
     // Obtener todos los campesinos
@@ -25,6 +28,15 @@ class PeasantService {
 
         if (!farmName || !ubication || !ubication.latitude || !ubication.longitude || !userId) {
             throw new Error("Campos obligatorios faltantes");
+        }
+
+        const peasantFound = await PeasantRepository.findByUserId(userId);
+        const companyFound = await CompanyRepository.findByUserId(userId);
+        const supplierFound = await SupplierRepository.findByUserId(userId);
+        
+
+        if(peasantFound || companyFound || supplierFound){
+            throw new Error("Usuario ya registrado");
         }
 
         return await peasantRepository.create({

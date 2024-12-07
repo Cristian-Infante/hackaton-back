@@ -6,6 +6,10 @@ class PeasantRepository {
         return await Peasant.find();
     }
 
+    async findByUserId(userId) {
+        return await Peasant.findOne({ user: userId });
+    }
+
     // Obtener un campesino por su ID
     async findById(id) {
         return await Peasant.findById(id).populate('user', 'name email role');

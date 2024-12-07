@@ -40,9 +40,9 @@ class AuthController {
 
     async logout(req, res) {
         try {
-            // Eliminar cookie de sesión
-            res.clearCookie('session');
+
             res.clearCookie('token');
+            res.clearCookie('session');
             res.status(200).json({ message: 'Logout exitoso.' });
         } catch (error) {
             res.status(500).json({ message: 'Error al cerrar sesión.' });
