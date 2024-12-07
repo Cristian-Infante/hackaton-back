@@ -52,7 +52,6 @@ class PeasantService {
         return await peasantRepository.create({
             farmName,
             contact,
-            products,
             address,
             ubication,
             user: userId
