@@ -49,7 +49,7 @@ class AuthService {
                 payload,
                 process.env.JWT_KEY,
                 {
-                expiresIn: "1d",
+                expiresIn: "1h",
                 },
                 (error, token) => {
                     
