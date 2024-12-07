@@ -16,6 +16,11 @@ router.get('/company/:id', authMiddleware, (req, res) => {
     companyController.getCompany(req, res);
 });
 
+router.get('/company/user/:userId', authMiddleware, (req, res) => {
+    // #swagger.tags = ['Companies']
+    companyController.getCompanyByUserId(req, res);
+});
+
 // Guardar una nueva empresa
 router.post('/company', authMiddleware, roleMiddleware(['administrador', 'empresa turistica']), (req, res) => {
     // #swagger.tags = ['Companies']

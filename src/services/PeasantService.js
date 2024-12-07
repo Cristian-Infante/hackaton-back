@@ -20,6 +20,16 @@ class PeasantService {
         return peasant;
     }
 
+    async getPeasantByUserId(userId) {
+        const peasant = await peasantRepository.findByUserId(userId);
+
+        if (!peasant) {
+            throw new Error("Campesino no encontrado");
+        }
+
+        return peasant
+    }
+
     // Crear un nuevo campesino
     async createPeasant(peasantData) {
         

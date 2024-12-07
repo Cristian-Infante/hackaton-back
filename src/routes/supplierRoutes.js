@@ -16,6 +16,11 @@ router.get('/supplier/:id', authMiddleware, (req, res) => {
     supplierController.getSupplier(req, res);
 });
 
+router.get('/suppliers/user/:userId', authMiddleware, (req, res) => {
+    // #swagger.tags = ['Suppliers']
+    supplierController.getSupplierByUserId(req, res);
+});
+
 // Crear un nuevo proveedor
 router.post('/supplier', authMiddleware, roleMiddleware(['administrador', 'proveedor']), (req, res) => {
     // #swagger.tags = ['Suppliers']

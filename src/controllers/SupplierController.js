@@ -39,6 +39,20 @@ class SupplierController {
         }
     }
 
+    async getSupplierByUserId(req, res) {
+        try {
+            const { userId } = req.params;
+            const supplier = await supplierService.getSupplierByUserId(userId);
+            res.status(200).json({
+                message: "Proveedor obtenido exitosamente",
+                data: supplier
+            });
+        } catch (error) {
+            console.error("Error al obtener el proveedor: ", error);
+            res.status(500).json({ message: "Error del servidor al obtener el proveedor" });
+        }
+    }
+
     // Crear un nuevo proveedor
     async saveSupplier(req, res) {
         try {

@@ -20,6 +20,16 @@ class CompanyService {
         return company;
     }
 
+    async getCompanyByUserId(userId) {
+        const company = await companyRepository.findByUserId(userId);
+
+        if (!company) {
+            throw new Error("Empresa no encontrada");
+        }
+
+        return company;
+    }
+
     // Crear una nueva empresa
     async createCompany(companyData) {
         const { companyName, nit, contact, ubication, userId } = companyData;

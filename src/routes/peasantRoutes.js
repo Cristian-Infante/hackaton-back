@@ -16,6 +16,11 @@ router.get('/peasant/:id',authMiddleware,  (req, res) => {
     peasantController.getPeasant(req, res);
 });
 
+router.get('/peasant/user/:userId', authMiddleware, (req, res) => {
+    // #swagger.tags = ['Peasants']
+    peasantController.getPeasantByUserId(req, res);
+});
+
 // Ruta de registro campesino
 router.post('/save/peasant', authMiddleware, (req, res) => {
     // #swagger.tags = ['Peasants']

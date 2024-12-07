@@ -33,6 +33,21 @@ class PeasantController {
         }
     }
 
+    async getPeasantByUserId(req, res) {
+        try {
+            const { userId } = req.params;
+            const peasant = await peasantService.getPeasantByUserId(userId);
+
+            res.status(200).json({
+                message: "Campesino obtenido exitosamente",
+                data: peasant
+            });
+        } catch (error) {
+            console.error("Error al obtener el campesino: ", error);
+            res.status(500).json({ message: "Error del servidor al obtener el campesino" });
+        }
+    }
+
     // Guardar un nuevo campesino
     async savePeasant(req, res) {
         try {

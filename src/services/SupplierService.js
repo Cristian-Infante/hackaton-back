@@ -18,6 +18,16 @@ class SupplierService {
         return supplier;
     }
 
+    async getSupplierByUserId(userId) {
+        const supplier = await supplierRepository.findByUserId(userId);
+
+        if (!supplier) {
+            throw new Error("Proveedor no encontrado");
+        }
+
+        return supplier;
+    }
+
     // Crear un nuevo proveedor
     async createSupplier(supplierData) {
         const { supplierName, nit, contactPhone, address, ubication, userId } = supplierData;

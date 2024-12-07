@@ -37,6 +37,26 @@ class CompanyController {
         }
     }
 
+    async getCompanyByUserId(req, res) {
+        try {
+            const { userId } = req.params;
+            const company = await companyService.getCompanyByUserId(userId);
+
+            res.status(200).json({
+                message: "Empresa obtenida exitosamente",
+                data: company
+            });
+        } catch (error) {
+            console.error("Error al obtener la empresa: ", error);
+
+            if (error.kind === "ObjectId") {
+                return res.status(400).json({ message: "ID inválido" });
+            }
+
+            res.status(500).json({ message: "Error del servidor al obtener la empresa" });
+        }
+    }
+
     // Guardar una nueva empresa
     async saveCompany(req, res) {
         try {
