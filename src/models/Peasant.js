@@ -7,17 +7,18 @@ const productSchema = new mongoose.Schema({
 
 const peasantSchema = new mongoose.Schema({
     farmName: { type: String, required: true },
+    contact: { type: String, required: true }, // Número de contacto
     products: { type: [productSchema], default: [] }, // Lista de productos
     ubication: {
         latitude: { type: Number, required: true },
-        longitude: { type: Number, required: true }
+        longitude: { type: Number, required: true },
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', // Referencia al modelo User
-        required: true
-    }
-});
+        required: true,
+    },
+}, { timestamps: true });
 
 const Peasant = mongoose.model('Peasant', peasantSchema);
 
