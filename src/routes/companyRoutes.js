@@ -17,7 +17,7 @@ router.get('/company/:id', authMiddleware, (req, res) => {
 });
 
 // Guardar una nueva empresa
-router.post('/company', authMiddleware, roleMiddleware(['administrador', 'empresa turística']), (req, res) => {
+router.post('/company', authMiddleware, roleMiddleware(['administrador', 'empresa turistica']), (req, res) => {
     // #swagger.tags = ['Companies']
     companyController.saveCompany(req, res);
 });
