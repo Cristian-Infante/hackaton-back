@@ -22,27 +22,28 @@ class CompanyService {
 
     // Crear una nueva empresa
     async createCompany(companyData) {
-        const { companyName, nit, contact, userId } = companyData;
+        const { companyName, nit, contact, ubication, userId } = companyData;
 
-        if (!companyName || !nit || !contact || !userId) {
+        if (!companyName || !nit || !contact || !ubication || !ubication.latitude || !ubication.longitude || !userId) {
             throw new Error("Campos obligatorios faltantes");
         }
 
         const peasantFound = await PeasantRepository.findByUserId(userId);
-        const companyFound = await CompanyRepository.findByUserId(userId);
         const supplierFound = await SupplierRepository.findByUserId(userId);
-        
-        if(peasantFound || companyFound || supplierFound){
+        const companyFound = await companyRepository.findByUserId(userId);
+
+        if (peasantFound || supplierFound || companyFound) {
             throw new Error("Usuario ya registrado");
         }
 
         return await companyRepository.create({
-                companyName,
-                nit,
-                contact,
-                user: userId
-            });
-        }
+            companyName,
+            nit,
+            contact,
+            ubication,
+            user: userId,
+        });
+    }
 
     // Eliminar una empresa por ID
     async deleteCompanyById(id) {
@@ -53,6 +54,19 @@ class CompanyService {
         }
 
         return deletedCompany;
+    }
+
+    async updateCompany(id, updateData) {
+        // Evitar actualizaciones en campos no permitidos
+        delete updateData._id;
+
+        const updatedCompany = await companyRepository.update(id, updateData);
+
+        if (!updatedCompany) {
+            throw new Error("Empresa no encontrada");
+        }
+
+        return updatedCompany;
     }
 }
 

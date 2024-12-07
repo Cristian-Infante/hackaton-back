@@ -38,4 +38,8 @@ router.delete('/peasants/:peasantId/products/:productId', authMiddleware, roleMi
     peasantController.removeProduct(req, res);
 });
 
+router.put('/peasant/:id', authMiddleware, roleMiddleware(['administrador', 'agricultor']), (req, res) => {
+    peasantController.updatePeasant(req, res);
+});
+
 module.exports = router;

@@ -88,6 +88,20 @@ class PeasantService {
 
         return await peasantRepository.removeProduct(peasantId, productId);
     }
+    
+    async updatePeasant(id, updateData) {
+        // Evitar actualizaciones en campos no permitidos
+        delete updateData._id;
+        delete updateData.products;
+
+        const updatedPeasant = await peasantRepository.update(id, updateData);
+
+        if (!updatedPeasant) {
+            throw new Error("Campesino no encontrado");
+        }
+
+        return updatedPeasant;
+    }
 }
 
 module.exports = new PeasantService();

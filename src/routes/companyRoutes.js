@@ -28,4 +28,8 @@ router.delete('/company/:id', authMiddleware, roleMiddleware(['administrador']),
     companyController.deleteCompany(req, res);
 });
 
+router.put('/company/:id', authMiddleware, roleMiddleware(['administrador', 'empresa turistica']), (req, res) => {
+    companyController.updateCompany(req, res);
+});
+
 module.exports = router;

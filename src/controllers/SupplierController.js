@@ -109,6 +109,24 @@ class SupplierController {
             res.status(400).json({ message: error.message });
         }
     }
+
+    async updateSupplier(req, res) {
+        try {
+            const { id } = req.params; // ID del proveedor a actualizar
+            const updateData = req.body; // Datos para la actualización
+            
+            const updatedSupplier = await supplierService.updateSupplier(id, updateData);
+
+            res.status(200).json({
+                message: "Proveedor actualizado exitosamente",
+                data: updatedSupplier,
+            });
+        } catch (error) {
+            console.error("Error al actualizar el proveedor:", error);
+            res.status(400).json({ message: error.message });
+        }
+    }
+
 }
 
 module.exports = new SupplierController();

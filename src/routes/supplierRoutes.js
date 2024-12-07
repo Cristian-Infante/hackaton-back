@@ -38,4 +38,9 @@ router.delete('/suppliers/:supplierId/products/:productId', authMiddleware, (req
     supplierController.removeProduct(req, res);
 });
 
+router.put('/supplier/:id', authMiddleware, roleMiddleware(['administrador', 'proveedor']), (req, res) => {
+    supplierController.updateSupplier(req, res);
+});
+
+
 module.exports = router;

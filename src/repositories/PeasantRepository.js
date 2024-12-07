@@ -3,7 +3,8 @@ const Peasant = require('../models/Peasant');
 class PeasantRepository {
     // Obtener todos los campesinos
     async findAll() {
-        return await Peasant.find();
+        return await Peasant.find().populate('user', 'name email role');
+
     }
 
     async findByUserId(userId) {
@@ -41,6 +42,10 @@ class PeasantRepository {
             { $pull: { products: { _id: productId } } }, // Eliminar el producto por su ID
             { new: true } // Retornar el documento actualizado
         );
+    }
+
+    async update(id, updateData) {
+        return await Peasant.findByIdAndUpdate(id, updateData, { new: true });
     }
 }
 
