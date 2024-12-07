@@ -4,6 +4,7 @@ const userRepository = require('../repositories/UserRepository');
 const jwtToken = require('jsonwebtoken');
 
 class AuthService {
+
     async register(userData) {
         const { name, email, password, role } = userData;
 
@@ -27,6 +28,7 @@ class AuthService {
     }
 
     async login(email, password) {
+        
         const user = await userRepository.findByEmail(email);
         if (!user || !(await bcrypt.compare(password, user.password))) {
             throw new Error('Credenciales inválidas');
