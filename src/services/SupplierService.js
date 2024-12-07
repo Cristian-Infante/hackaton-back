@@ -62,7 +62,7 @@ class SupplierService {
         if (!supplier) {
             throw new Error("Proveedor no encontrado");
         }
-        if (!product.name || !product.price) {
+        if (!product.name || !product.price || !product.quantity) {
             throw new Error("Información del producto incompleta");
         }
         return await supplierRepository.addProduct(supplierId, product);

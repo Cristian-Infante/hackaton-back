@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 // Sub-esquema para productos ofrecidos
 const productOfferedSchema = new mongoose.Schema({
     name: { type: String, required: true }, // Nombre del producto
-    price: { type: Number, required: true } // Precio estimado por unidad, volumen o peso
+    price: { type: Number, required: true }, // Precio estimado por unidad, volumen o peso
+    quantity: { type: Number, required: true }, // Cantidad ofrecida
 });
 
 // Esquema principal para el proveedor
