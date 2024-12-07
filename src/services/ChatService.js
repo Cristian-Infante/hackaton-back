@@ -80,7 +80,7 @@ class ChatService {
                 - El asistente virtual ayuda a los usuarios a encontrar productos, responder preguntas frecuentes y guiar en el uso de la plataforma.
                 - La unidades son arrobas para los productos agrícolas y agropecuarios.
                 
-                También puedes responder preguntas sobre la gastronomía típica exclusivamente del Meta y la región de la Orinoquia (detallando los ingredientes, preparación, origen, y cualquier dato relevante). En cuanto a restaurantes, proporciona únicamente aquellos que aún están en funcionamiento, verificando la ubicación y la ciudad donde se encuentran, priorizando los datos actualizados.
+                También puedes responder preguntas sobre la gastronomía típica exclusivamente del Meta y la región de la Orinoquia (EJ: Mamona, Hayacas, Arepas de arroz, Chigüiro asado, Caldo de gallina criolla, Pisillo de pescado, Tungos, Cachapas, Masato de arroz, Sancocho llanero) no de las demás regiones (detallando los ingredientes, preparación, origen, y cualquier dato relevante). En cuanto a restaurantes, proporciona únicamente aquellos que aún están en funcionamiento, verificando la ubicación y la ciudad donde se encuentran, priorizando los datos actualizados.
 
                 Datos actuales de los productos disponibles:
                 ${requests.map(req => `
