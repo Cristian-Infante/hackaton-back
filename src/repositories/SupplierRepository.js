@@ -11,6 +11,10 @@ class SupplierRepository {
         return await Supplier.findById(id).populate('user', 'name email');
     }
 
+    async findByUserId(userId) {
+        return await Supplier.findOne({ user: userId });
+    }
+
     // Crear un nuevo proveedor
     async create(supplierData) {
         const supplier = new Supplier(supplierData);

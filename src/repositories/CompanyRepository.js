@@ -21,6 +21,10 @@ class CompanyRepository {
     async deleteById(id) {
         return await Company.findByIdAndDelete(id);
     }
+
+    async findByUserId(userId) {
+        return await Company.findOne({ user: userId });
+    }
 }
 
 module.exports = new CompanyRepository();

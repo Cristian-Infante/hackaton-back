@@ -1,5 +1,7 @@
 const supplierRepository = require('../repositories/SupplierRepository');
-const UserRepository = require('../repositories/UserRepository');
+const PeasantRepository = require('../repositories/PeasantRepository');
+const CompanyRepository = require('../repositories/CompanyRepository');
+const SupplierRepository = require('../repositories/SupplierRepository');
 
 class SupplierService {
     // Listar todos los proveedores
@@ -25,9 +27,11 @@ class SupplierService {
             throw new Error("Campos obligatorios faltantes");
         }
 
-        const userFound = await UserRepository.findById(userId);
-
-        if(userFound){
+        const peasantFound = await PeasantRepository.findByUserId(userId);
+        const companyFound = await CompanyRepository.findByUserId(userId);
+        const supplierFound = await SupplierRepository.findByUserId(userId);
+        
+        if(peasantFound || companyFound || supplierFound){
             throw new Error("Usuario ya registrado");
         }
 
