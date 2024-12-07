@@ -7,18 +7,18 @@ class RequestRepository {
     }
 
     async findByIdWithOffers(requestId) {
-        return await Request.findById(requestId).populate('offers.user', 'name email');
+        return await Request.findById(requestId).populate('offers.user', 'name email role');
     }
 
 
     async findAll() {
-        return await Request.find().populate('user', 'name email');
+        return await Request.find().populate('user', 'name email role');
     }
 
     async findById(id) {
         return await Request.findById(id)
-            .populate('user', 'name email')
-            .populate('offers.user', 'name email');
+            .populate('user', 'name email role')
+            .populate('offers.user', 'name email role');
     }
 
     async deleteById(id) {

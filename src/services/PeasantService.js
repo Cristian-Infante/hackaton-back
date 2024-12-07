@@ -74,6 +74,7 @@ class PeasantService {
 
     // Eliminar un producto de un campesino
     async removeProductFromPeasant(peasantId, productId) {
+        
         const peasant = await peasantRepository.findById(peasantId);
 
         if (!peasant) {
