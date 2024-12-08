@@ -10,7 +10,7 @@ const server = () => {
     const app = express();
     const PORT = process.env.PORT || 3000;
     const URL = process.env.DEPLOY_URL || 'localhost';
-    const allowedOrigins = [`http://${URL}`, `https://${URL}`, `http://localhost:3000`, `http://localhost:3001`, `http://localhost:3002`, `https://front-hackaton-l1nl.vercel.app`];
+    const allowedOrigins = [`http://${URL}`, `https://${URL}`, `http://localhost:3000`, `http://localhost:3001`, `http://localhost:3002`, `https://front-hackaton-tan.vercel.app`];
 
     app.use(express.json());
     app.use(cookieParser());
